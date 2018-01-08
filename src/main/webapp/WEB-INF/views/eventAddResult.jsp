@@ -5,30 +5,30 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>イベント情報登録完了</title>
+
+<link rel="stylesheet" href="../../resources/css/sanitize.css">
+<link rel="stylesheet" href="../../resources/css/style.css">
+
 </head>
 <body>
+<div class="content">
 	<h1>イベント情報登録完了</h1>
 	<hr>
 	<p>イベント情報の登録が完了しました。</p>
-	<div>
-	<table>
-		<tr>
-			<td>日にち:</td>
-			<td>${ivent.date}</td>
-		</tr>
-		<tr>
-			<td>イベント名:</td>
-			<td>${ivent.iventName}</td>
-		</tr>
-		<tr>
-			<td>メモ:</td>
-			<td>${ivent.memo}</td>
-		</tr>
-	</table>
-	</div>
 
-    <form method="POST" action="/top">
-     	<br/><input type = "submit" value="調整さんTOP" />
+	<p>イベントID:
+	<input type="text" value="${event.eventId}"><br>
+
+	<p>イベント名:
+	${event.eventName}<br>
+	<p>日にち:
+	${event.eventDate}<br>
+	<p>メモ:
+	${event.memo}<br>
+
+     <form method="POST" action="/top">
+     	<button type="submit">調整さんTOP</button>
     </form>
+</div>
 </body>
 </html>
