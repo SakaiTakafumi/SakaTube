@@ -1,0 +1,61 @@
+@CHARSET "UTF-8";
+
+h1 {
+	font-size: 36px;
+	margin: 0;
+}
+h2 {
+	font-size: 20px;
+	margin: 0;
+}
+
+.content {
+	background-color: #fff;
+	width: 1000px;
+	margin: 30px auto;
+	border: 1px solid #d1d1d1;
+	padding: 30px;
+}
+
+p {
+	font-size: 14px;
+}
+
+textarea {
+	border-bottom: 1px solid #d1d1d1;
+	font-size: 1.2em;
+	width: 100%;
+	padding: 8px;
+}
+
+
+
+input.button {
+	width: 50%;
+	background-color: #2096F3;
+	color: #fff;
+	padding: 15px;
+	border-radius: 3px;
+	box-shadow: 0 0 8px rgba(0, 0, 0, .4);
+}
+
+body {
+	background-color: #fafafa;
+}
+
+div.div_1 {
+	float: left;
+}
+
+div.div_2 {
+	float: right;
+}
+
+div.div_3 {
+	clear: both;
+	text-align:center;
+}
+
+input.url {
+	width: 50%;
+}

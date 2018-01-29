@@ -9,36 +9,38 @@ import javax.persistence.Table;
 @Table(name = "EVENT_INFO")
 public class EventInfo {
 	@Id
-	protected String eventId;
+	protected Long eventId;
 	protected String eventName;
-	protected String eventDate;
 	protected String memo;
-	protected String deleteFlag;
 
 	public EventInfo(){
 		super();
 	}
-
     public EventInfo (
-    	String eventId,
-    	String eventName,
-    	String eventDate,
-    	String memo,
-    	String deleteFlag) {
+    		String eventName,
+    		String memo) {
+
+    	super();
+    	this.eventName = eventName;
+    	this.memo = memo;
+	}
+
+	public EventInfo (
+			Long eventId,
+			String eventName,
+			String memo) {
 
     	super();
     	this.eventId = eventId;
 		this.eventName = eventName;
-		this.eventDate = eventDate;
 		this.memo = memo;
-		this.deleteFlag = deleteFlag;
     }
 
-	public String getEventId() {
+	public Long getEventId() {
 		return eventId;
 	}
 
-	public void setEventId(String eventId) {
+	public void setEventId(Long eventId) {
 		this.eventId = eventId;
 	}
 
@@ -50,14 +52,6 @@ public class EventInfo {
 		this.eventName = eventName;
 	}
 
-	public String getEventDate() {
-		return eventDate;
-	}
-
-	public void setEventDate(String eventDate) {
-		this.eventDate = eventDate;
-	}
-
 	public String getMemo() {
 		return memo;
 	}
@@ -66,18 +60,9 @@ public class EventInfo {
 		this.memo = memo;
 	}
 
-	public String getDeleteFlag() {
-		return deleteFlag;
-	}
-
-	public void setDeleteFlag(String deleteFlag) {
-		this.deleteFlag = deleteFlag;
-	}
-
 	@Override
 	public String toString() {
 		return "EventInfo [eventId=" + eventId + ", eventName=" + eventName
-				+ ", eventDate=" + eventDate + ", memo=" + memo
-				+ ", deleteFlag=" + deleteFlag + "]";
+				+ ", memo=" + memo + "]";
 	}
 }
