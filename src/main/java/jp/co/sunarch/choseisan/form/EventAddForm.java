@@ -1,6 +1,7 @@
 package jp.co.sunarch.choseisan.form;
 
 public class EventAddForm {
+
 	private String eventName;
 	private String eventSchedule;
 	private String memo;

@@ -3,16 +3,18 @@ package jp.co.sunarch.choseisan.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.co.sunarch.choseisan.DAO.EventDAO;
+import jp.co.sunarch.choseisan.DAO.EventInfoDAO;
+import jp.co.sunarch.choseisan.DAO.EventScheduleDAO;
 import jp.co.sunarch.choseisan.entity.EventInfo;
 import jp.co.sunarch.choseisan.entity.EventSchedule;
 
 public class EventAddLogic {
 	public Long eventAddLogic(String eventName, String eventSchedules, String memo) {
 
-		EventDAO eventDao = new EventDAO();
+		EventInfoDAO eventDao = new EventInfoDAO();
+		EventScheduleDAO eventScheduleDao = new EventScheduleDAO();
 		EventInfo eventInfo = new EventInfo(eventName, memo);
-		// 入力されたイベント情報を保存
+		// 入力されたイベント情報をイベント情報テーブルへ登録
 		Long eventId = eventDao.insertEventInfo(eventInfo);
 
 		// 候補日程のオブジェクトリスト(日数分)
@@ -24,8 +26,8 @@ public class EventAddLogic {
 			eventScheduleList.add(new EventSchedule(eventId, eventDate));
 		}
 
-		// DB登録
-		eventDao.insertEventSchedule(eventScheduleList);
+		// イベント候補日程テーブルへ登録
+		eventScheduleDao.insertEventSchedule(eventScheduleList);
 
 		return eventId;
 	}

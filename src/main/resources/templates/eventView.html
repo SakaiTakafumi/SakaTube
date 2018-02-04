@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>出欠参照</title>
+	 <link href="/css/sanitize.css" th:href="@{/css/sanitize.css}" rel="stylesheet"></link>
+	 <link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"></link>
+</head>
+<body>
+	<div class="content">
+		<h1>出欠参照(製造中)</h1>
+		<br />
+	</div>
+</body>
+
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+function radioChecked() {
+
+	var array = [];
+
+	// form内にあるradioでcheckついてるやつ
+	var flag = false;
+
+	for (var i=0; i < document.answerForm.elements.length-1; i++) {
+		if (document.answerForm.elements[i].checked) {
+			flag = true;
+			// 配列に突っ込み
+			array.push(document.answerForm.elements[i].value);
+		}
+	}
+	// hiddenに配列を文字列(カンマ区切り)にしたのを設定
+	document.getElementById("checkList").value = array.join(',');
+}
+/*]]>*/
+</script>
+
+</html>
