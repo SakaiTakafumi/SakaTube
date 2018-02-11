@@ -17,6 +17,11 @@ public class AnswerInfoDAO extends DriverAccessor{
 
 	public static final String INSERT_INTO_ANSWER_INFO = "INSERT INTO ANSWER_INFO (ANSWERER_ID, EVENT_SCHEDULE, ANSWER) VALUES (?,?,?)";
 
+	/**
+	 * 回答内容のDB反映を行います。
+	 * 
+	 * @param answerInfoList
+	 */
 	public Long insertAnswerInfo(List<AnswerInfo> answerInfoList) {
 		Long answererId = null;
 

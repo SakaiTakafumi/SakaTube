@@ -10,8 +10,13 @@ import jp.co.sunarch.choseisan.entity.EventAnswererInfo;
 import jp.co.sunarch.choseisan.form.AnswerForm;
 
 public class EventAnswerLogic {
+	/**
+	 * 回答内容をDBに反映します。
+	 *
+	 * @param eventId
+	 * @param answerForm
+	 */
 	public void eventAnswerLogic(Long eventId, AnswerForm answerForm) {
-
 		EventAnswererInfoDAO eventAnswererInfoDao = new EventAnswererInfoDAO();
 		AnswerInfoDAO answerInfoDao = new AnswerInfoDAO();
 		List<AnswerInfo> answerList = new ArrayList<>();

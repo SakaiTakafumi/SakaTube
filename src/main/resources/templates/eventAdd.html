@@ -12,7 +12,7 @@
 		<h2>30秒でつくれる！カンタン出欠表</h2>
 		<br />
 
-		<form method="post" action="#" th:action="@{/eventAddResult}" th:object="${eventAddForm}" onSubmit="return check()">
+		<form method="post" action="#" th:action="@{/eventAddResult}" th:object="${eventAddForm}" name="eventInfo" onSubmit="return check()">
 			<div class="div_1">
 				<b>■STEP1 イベント名</b><br />
 				※今期もお疲れ様でした飲み会、打ち合わせなど<br />
@@ -39,4 +39,22 @@
 		</form>
 	</div>
 </body>
+
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+function check() {
+	// イベント名の入力をチェック
+	if(document.eventInfo.eventName.value == "") {
+		window.alert('「STEP1 イベント名」は必須です。');
+		return false;
+	}
+	// 候補日程の入力をチェック
+	else if(document.eventInfo.eventSchedule.value == "") {
+		window.alert('「STEP2 候補日程」は必須です。');
+		return false;
+	}
+	return true;
+}
+/*]]>*/
+</script>
 </html>

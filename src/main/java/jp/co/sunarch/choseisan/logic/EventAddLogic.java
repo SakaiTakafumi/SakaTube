@@ -8,7 +8,16 @@ import jp.co.sunarch.choseisan.DAO.EventScheduleDAO;
 import jp.co.sunarch.choseisan.entity.EventInfo;
 import jp.co.sunarch.choseisan.entity.EventSchedule;
 
+import org.springframework.util.StringUtils;
+
 public class EventAddLogic {
+	/**
+	 * 画面から入力されたイベント情報をDBに反映します。
+	 *
+	 * @param eventName
+	 * @param evventSchedules
+	 * @param memo
+	 */
 	public Long eventAddLogic(String eventName, String eventSchedules, String memo) {
 
 		EventInfoDAO eventDao = new EventInfoDAO();
@@ -23,6 +32,9 @@ public class EventAddLogic {
 		// 画面で入力された候補日程を改行でスプリットして日程ごとにオブジェクトを生成する。
 		String eventSchedule[] = eventSchedules.split("\r\n");
 		for (String eventDate : eventSchedule) {
+			if (StringUtils.isEmpty(eventDate)) {
+				continue;
+			}
 			eventScheduleList.add(new EventSchedule(eventId, eventDate));
 		}
 

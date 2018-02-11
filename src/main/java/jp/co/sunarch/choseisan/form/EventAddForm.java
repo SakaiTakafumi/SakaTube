@@ -1,8 +1,12 @@
 package jp.co.sunarch.choseisan.form;
 
+import javax.validation.constraints.NotNull;
+
 public class EventAddForm {
 
+	@NotNull
 	private String eventName;
+	@NotNull
 	private String eventSchedule;
 	private String memo;
 

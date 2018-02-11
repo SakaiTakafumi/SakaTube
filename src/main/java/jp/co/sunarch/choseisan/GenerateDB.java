@@ -44,6 +44,25 @@ public class GenerateDB extends DriverAccessor{
 			+ "PRIMARY KEY(ANSWERER_ID, EVENT_SCHEDULE))";
 
 	/**
+	 * 回答情報のビュー作成
+	 */
+	private static final String ANSWER_VIEW = "CREATE OR REPLACE VIEW ANSWER_VIEW AS "
+			+ "SELECT "
+			+ "ES.EVENT_ID, "
+			+ "ES.EVENT_SCHEDULE, "
+			+ "EAI.ANSWERER_ID, "
+			+ "EAI.ANSWERER_NAME, "
+			+ "AI.ANSWER "
+			+ "FROM "
+			+ "EVENT_SCHEDULE ES "
+			+ "INNER JOIN EVENT_ANSWERER_INFO EAI "
+			+ "ON ES.EVENT_ID = EAI.EVENT_ID "
+			+ "INNER JOIN ANSWER_INFO AI "
+			+ "ON EAI.ANSWERER_ID = AI.ANSWERER_ID "
+			+ "AND ES.EVENT_SCHEDULE = AI.EVENT_SCHEDULE "
+			+ "ORDER BY ES.EVENT_SCHEDULE;";
+
+	/**
 	 * イベントIDのシーケンス作成
 	 */
 	private static final String CREATE_EVENT_ID_SEQ = "CREATE SEQUENCE IF NOT EXISTS EVENT_ID_SEQ";
@@ -98,13 +117,17 @@ public class GenerateDB extends DriverAccessor{
 			answerInfoStmt.executeUpdate();
 			answerInfoStmt.close();
 
-			con = null;
+			// 回答情報のビュー
+			PreparedStatement answerViewStmt = con.prepareStatement(ANSWER_VIEW);
+			answerViewStmt.executeUpdate();
+			answerViewStmt.close();
+
 		} catch(SQLException e) {
 
 		} catch(Exception e) {
 
 		} finally {
-
+			con = null;
 		}
 	}
 }

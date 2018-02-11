@@ -13,10 +13,13 @@ import jp.co.sunarch.choseisan.entity.SelectEvent;
 
 public class EventInfoDAO extends DriverAccessor{
 
-	private static final int EVENT_ID = 1;
-	private static final int EVENT_NAME = 2;
-	private static final int MEMO = 3;
+	private static final int EVENT_NAME = 1;
+	private static final int MEMO = 2;
 	private static final int EVENT_SCHEDULE = 4;
+
+	private static final int EVENT_INFO_EVENT_NAME = 2;
+	private static final int EVENT_INFO_MEMO = 3;
+	private static final int EVENT_INFO_EVENT_SCHEDULE = 4;
 
 	private static final String INSERT_INTO_EVENT_INFO = "INSERT INTO EVENT_INFO (EVENT_ID, EVENT_NAME, MEMO) VALUES ((SELECT NEXTVAL('EVENT_ID_SEQ')),?,?)";
 	private static final String SELECT_EVENT_ID_SEQ = "SELECT EVENT_ID_SEQ.CURRVAL FROM DUAL";
@@ -48,9 +51,8 @@ public class EventInfoDAO extends DriverAccessor{
 		try{
 			PreparedStatement eventInfoStmt = con.prepareStatement(INSERT_INTO_EVENT_INFO);
 
-//			eventInfoStmt.setLong(1, 0);
-			eventInfoStmt.setString(1, eventInfo.getEventName());
-			eventInfoStmt.setString(2, eventInfo.getMemo());
+			eventInfoStmt.setString(EVENT_NAME, eventInfo.getEventName());
+			eventInfoStmt.setString(MEMO, eventInfo.getMemo());
 
 			eventInfoStmt.executeUpdate();
 
@@ -62,18 +64,17 @@ public class EventInfoDAO extends DriverAccessor{
 
 			eventInfoStmt.close();
 			eventIdSeqStmt.close();
-			con = null;
 
 		} catch(SQLException e) {
 			e.printStackTrace();
 		} finally {
-
+			con = null;
 		}
 		return eventId;
 	}
 
 	/**
-	 * 画面から入力されたイベントIDでイベント情報を取得します。
+	 * イベントIDでイベント情報を取得します。
 	 *
 	 * @param eventId イベントID
 	 */
@@ -89,34 +90,21 @@ public class EventInfoDAO extends DriverAccessor{
 
 			ResultSet result = stmt.executeQuery();
 
-			// 取得レコードがない場合にはnullを返す。
-//			result.last();
-//			int lastRowNum = result.getRow();
-//			if (lastRowNum == 0) {
-//				return null;
-//			}
-
 			while(result.next()){
 				// 取得レコードでイベント情報のオブジェクト生成
-				String eventName = result.getString(EVENT_NAME);
-				String memo = result.getString(MEMO);
-				String eventSchedule = result.getString(EVENT_SCHEDULE);
-//				eventList.add(new SelectEvent(
-//						result.getLong(EVENT_ID),
-//						result.getString(EVENT_NAME),
-//						result.getString(MEMO),
-//						result.getString(EVENT_SCHEDULE)));
+				String eventName = result.getString(EVENT_INFO_EVENT_NAME);
+				String memo = result.getString(EVENT_INFO_MEMO);
+				String eventSchedule = result.getString(EVENT_INFO_EVENT_SCHEDULE);
 				SelectEvent event = new SelectEvent(eventId, eventName, memo, eventSchedule);
 
 				eventList.add(event);
 			  }
 
 			stmt.close();
-			con = null;
 		} catch(SQLException e) {
-
+			e.printStackTrace();
 		} finally {
-
+			con = null;;
 		}
 		return eventList;
 	}

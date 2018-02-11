@@ -56,6 +56,20 @@ div.div_3 {
 	text-align:center;
 }
 
+div.div001 {
+	float: left;
+}
+
+div.div002 {
+	float: right;
+}
+
 input.url {
 	width: 50%;
+}
+
+#table-scroll {
+  height:150px;
+  overflow:auto;
+  margin-top:20px;
 }
