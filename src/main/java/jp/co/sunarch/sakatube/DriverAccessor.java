@@ -1,4 +1,4 @@
-package jp.co.sunarch.choseisan;
+package jp.co.sunarch.sakatube;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DriverAccessor {
 
-    private final static String DRIVER_URL="jdbc:h2:file:~/choseiSan";
+    private final static String DRIVER_URL="jdbc:h2:file:~/sakaTube";
     private final static String DRIVER_NAME="org.h2.Driver";
     private final static String USER_NAME="sa";
     private final static String PASSWORD="";
