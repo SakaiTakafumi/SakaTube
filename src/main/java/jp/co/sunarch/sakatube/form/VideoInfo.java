@@ -1,16 +1,13 @@
 package jp.co.sunarch.sakatube.form;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.web.multipart.MultipartFile;
 
 public class VideoInfo {
 
-	@NotNull
 	private String title;
-	@NotNull
+
 	private String note;
-	@NotNull
+
 	private MultipartFile video;
 
 	public String getTitle() {

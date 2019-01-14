@@ -14,7 +14,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 		<!-- ボタン -->
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demoNormalModal">動画アップロード</button>
+		<button type="button" class="btn btn-primary" id="video-upload" data-toggle="modal" data-target="#demoNormalModal">動画アップロード</button>
 
 		<!-- モーダルダイアログ -->
 		<div class="modal fade" id="demoNormalModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
@@ -24,7 +24,7 @@
 						<h5 class="modal-title" id="demoModalTitle">動画アップロード</h5>
 					</div>
 
-					<form id="data-upload-form" th:object="${videoInfo}" name="videoInfo" enctype="multipart/form-data" method="post" th:unless="true">
+					<form id="data-upload-form" th:object="${videoInfo}" name="videoInfo" enctype="multipart/form-data" method="post">
 						<div class="modal-body">タイトル</div>
 						<input type="text" th:field="*{title}" size="30" />
 
@@ -40,8 +40,13 @@
 						</div>
 					</form>
 
-					<div class="upload-complete" th:unless="false">
-						<div class="modal-body">アップロードが完了しました</div>
+					<div class="upload-complete" id="upload-complete">
+						<div class="modal-body" id="upload-sucsess">アップロードが完了しました</div>
+						<div class="modal-body" id="upload-failed">アップロードが失敗しました</div>
+						<div class="modal-body" id="title-required-error">・動画タイトルは必須です。</div>
+						<div class="modal-body" id="file-required-error">・ファイルを選択して下さい。</div>
+						<div class="modal-body" id="file-type-error">・動画ファイル以外はアップロード出来ません。</div>
+						<div class="modal-body" id="file-size-error">・サイズ上限を超えているためアップロード出来ません。</div>
 						<div class="modal-footer">
 							<button  class="btn btn-secondary" data-dismiss="modal">閉じる</button>
 							<input class="btn btn-primary" id="upload-continue" type="submit" value="続ける" />
@@ -57,48 +62,94 @@
 // 主処理部
 $(function(){
 
+	// アップロードダイアログ表示時
+	$("#video-upload").click(function(event){
+		document.videoInfo.reset();
+		document.getElementById('data-upload-form').style.display = 'block';
+		document.getElementById('upload-complete').style.display = 'none';
+
+		document.getElementById('title-required-error').style.display = 'none';
+		document.getElementById('file-required-error').style.display = 'none';
+		document.getElementById('file-type-error').style.display = 'none';
+		document.getElementById('file-size-error').style.display = 'none';
+	});
+
 	// アップロードボタンを押下
 	$("#data-upload-form").submit(function(event){
+		var errorFlag = false;
 		// タイトル
-//		if(document.videoInfo.title.value != "") {
-//    		window.alert(document.videoInfo.title.value);
-//		}
+		if(document.videoInfo.title.value == "") {
 
-    	// 説明
-//		if(document.videoInfo.note.value != "") {
-//    		window.alert(document.videoInfo.note.value);
-//		}
+			document.getElementById('data-upload-form').style.display = 'none';
+			document.getElementById('upload-complete').style.display = 'block';
+			document.getElementById('upload-sucsess').style.display = 'none';
+			document.getElementById('upload-failed').style.display = 'block';
+
+			document.getElementById('title-required-error').style.display = 'block';
+			errorFlag = true;
+		}
 
 		// video
-//		if(document.videoInfo.note.value != "") {
-//			window.alert(document.videoInfo.video.value);
-//		}
+		if(document.videoInfo.video.value == "") {
+			document.getElementById('data-upload-form').style.display = 'none';
+			document.getElementById('upload-complete').style.display = 'block';
+			document.getElementById('upload-sucsess').style.display = 'none';
+			document.getElementById('upload-failed').style.display = 'block';
+
+			document.getElementById('file-required-error').style.display = 'block';
+			errorFlag = true;
+		}
 
 		// 要素規定の動作をキャンセルする
 		event.preventDefault();
-		var formData = new FormData($(this)[0]);
 
-		var hostUrl= 'http://localhost:8080/sakaTube/videoUpload';
+		if (!errorFlag) {
+			var formData = new FormData($(this)[0]);
 
-		$.ajax({
-			url: hostUrl,
-			type:'POST',
-			dataType: 'json',
-			processData: false,
-			contentType: false,
-			data : formData,
-		}).done(function(data) {
-			alert("アップロードが完了しました");
-		}).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("エラーが発生しました");
-		})
+			var hostUrl= 'http://localhost:8080/sakaTube/videoUpload';
 
-//		alert("アップロードが失敗しました。");
+			$.ajax({
+				url: hostUrl,
+				type:'POST',
+				dataType: 'json',
+				processData: false,
+				contentType: false,
+				data : formData,
+			}).done(function(data) {
+				document.getElementById('data-upload-form').style.display = 'none';
+				document.getElementById('upload-complete').style.display = 'block';
+				if (data.uploadSuccess == "1") {
+					document.getElementById('upload-sucsess').style.display = 'block';
+					document.getElementById('upload-failed').style.display = 'none';
+				} else {
+					document.getElementById('upload-sucsess').style.display = 'none';
+					document.getElementById('upload-failed').style.display = 'block';
+					if (data.titleRequiredError == "1") {
+						document.getElementById('title-required-error').style.display = 'block';
+					}
+					if (data.fileRequiredError == "1") {
+						document.getElementById('file-required-error').style.display = 'block';
+					}
+					if (data.fileTypeError == "1") {
+						document.getElementById('file-type-error').style.display = 'block';
+					}
+					if (data.fileSizeError == "1") {
+						document.getElementById('file-size-error').style.display = 'block';
+					}
+				}
+			}).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+				document.getElementById('upload-sucsess').style.display = 'none';
+				document.getElementById('upload-failed').style.display = 'block';
+			})
+		}
 	});
 
 	// 続けるボタンを押下
 	$("#upload-continue").click(function(event){
-//		alert("続けます");
+		document.videoInfo.reset();
+
+		document.getElementById('data-upload-form').style.display = 'block';
+		document.getElementById('upload-complete').style.display = 'none';
 	});
 });
 

@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Map;
 
 import jp.co.sunarch.sakatube.DriverAccessor;
-
-import org.springframework.web.multipart.MultipartFile;
+import jp.co.sunarch.sakatube.form.VideoInfo;
 
 public class VideoInfoDAO extends DriverAccessor{
 
@@ -33,16 +33,16 @@ public class VideoInfoDAO extends DriverAccessor{
 	 * @param note    動画説明
 	 * @param video   動画
 	 */
-	public void insertVideoInfo(String title, String note, MultipartFile video){
+	public void insertVideoInfo(VideoInfo videoInfo, Map<String, String> resultMap){
 
 		Connection con = null;
 		con = createConnection();
 		try{
 			PreparedStatement videoInfoStmt = con.prepareStatement(INSERT_INTO_VIDEO_INFO);
 
-			videoInfoStmt.setString(VIDEO_TITLE, title);
-			videoInfoStmt.setString(VIDEO_NOTE, note);
-			videoInfoStmt.setBlob(VIDEO, video.getInputStream());
+			videoInfoStmt.setString(VIDEO_TITLE, videoInfo.getTitle());
+			videoInfoStmt.setString(VIDEO_NOTE, videoInfo.getNote());
+			videoInfoStmt.setBlob(VIDEO, videoInfo.getVideo().getInputStream());
 
 			// 登録実行
 			videoInfoStmt.executeUpdate();
@@ -50,11 +50,14 @@ public class VideoInfoDAO extends DriverAccessor{
 			videoInfoStmt.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			resultMap.put("uploadSuccess", "0");
+			return;
 		} catch (IOException ioe) {
-			ioe.printStackTrace();
+			resultMap.put("uploadSuccess", "0");
+			return;
 		} finally {
 			con = null;
 		}
+		resultMap.put("uploadSuccess", "1");
 	}
 }
