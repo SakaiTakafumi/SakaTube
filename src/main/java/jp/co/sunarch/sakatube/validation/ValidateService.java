@@ -25,7 +25,7 @@ public class ValidateService {
 		// 選択されたファイルのサイズチェック
 		checkFileSize(videoInfo.getVideo(), resultMap);
 		// 選択されたファイルのタイプチェック
-		checkFileType(videoInfo.getVideo(), resultMap);
+		checkFileType(videoInfo.getExtension(), resultMap);
 
 	}
 
@@ -67,11 +67,9 @@ public class ValidateService {
 	 *
 	 * @param file
 	 */
-	public void checkFileType(MultipartFile file, Map<String, String> resultMap) {
-		String type = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1).toUpperCase();
-
+	public void checkFileType(String extension, Map<String, String> resultMap) {
 		for (String okType : typeList) {
-			if (StringUtils.equals(type, okType)) {
+			if (StringUtils.equals(extension, okType)) {
 				return;
 			}
 		}

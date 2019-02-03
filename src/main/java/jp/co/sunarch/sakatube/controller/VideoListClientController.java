@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class VideoListClientController {
 
-	// 動画一覧画面
+	// 動画一覧画面表示
 	@RequestMapping("/videoList")
 	public String videoList(Model model) {
 		model.addAttribute("videoInfo", new VideoInfo());

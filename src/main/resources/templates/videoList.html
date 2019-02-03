@@ -13,8 +13,25 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+	<nav class="navbar navbar-expand-md navbar-light bg-light">
+		<div align="left"><p>SakaTube</p></div>
+
+		<form id="data-search-form"  name="keyWord" method="get">
+		<div class="input-group mb-3">
+			<input type="text" name="word" class="form-control" placeholder="検索ワードを入力して下さい。" />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" id="data_serch_button" type="submit">検索</button>
+			</div>
+		</div>
+		</form>
+
 		<!-- ボタン -->
 		<button type="button" class="btn btn-primary" id="video-upload" data-toggle="modal" data-target="#demoNormalModal">動画アップロード</button>
+	</nav>
+
+	<div id="videos">
+
+	</div>
 
 		<!-- モーダルダイアログ -->
 		<div class="modal fade" id="demoNormalModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
@@ -26,13 +43,13 @@
 
 					<form id="data-upload-form" th:object="${videoInfo}" name="videoInfo" enctype="multipart/form-data" method="post">
 						<div class="modal-body">タイトル</div>
-						<input type="text" th:field="*{title}" size="30" />
+						<input type="text" name="title" size="30" />
 
 						<div class="modal-body">説明</div>
-						<textarea rows="5" cols="48" th:field="*{note}" />
+						<textarea rows="5" cols="48" name="note"></textarea>
 
 						<div class="modal-body">ファイル</div>
-						<input type="file" name="example" size="30" th:field="*{video}" />
+						<input type="file" size="30" name="video" />
 
 						<div class="modal-footer">
 							<button  class="btn btn-secondary" data-dismiss="modal">閉じる</button>
@@ -61,6 +78,45 @@
 /*<![CDATA[*/
 // 主処理部
 $(function(){
+	$("p").css('font-size', '+=5');
+	$('.input-group mb-3').width(800).offset({left: 800});
+	$('#video-upload').offset({left: 1200});
+
+	// 検索ボタン押下時
+	$("#data-search-form").submit(function(event){
+
+		// 前の検索結果を削除する。
+		$("#videos").empty();
+
+		// 要素規定の動作をキャンセルする
+		event.preventDefault();
+
+		var jsonString = $('.form-control').serializeArray();
+		var formData = JSON.stringify(jsonString);
+
+		var hostUrl= 'http://localhost:8080/sakaTube/search';
+
+		$.ajax({
+			url: hostUrl,
+			type:'POST',
+			dataType: 'json',
+			processData: false,
+			contentType: false,
+			data : document.keyWord.word.value,
+		}).done(function(data) {
+			if (data.length == 0) {
+				$("#videos").append('<p>該当する動画はありません。</p>');
+			} else {
+				for (var video in data) {
+					$("#videos").append('<a href="http://localhost:8080/video/' + data[video].id + '">' + data[video].title + '</a><br>');
+					$("#videos").append('<p>説明：'+ data[video].note + '</p>');
+				}
+			}
+
+		}).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+			$("#videos").append('<p>動画を検索出来ませんでした。</p>');
+		})
+	});
 
 	// アップロードダイアログ表示時
 	$("#video-upload").click(function(event){
@@ -76,15 +132,16 @@ $(function(){
 
 	// アップロードボタンを押下
 	$("#data-upload-form").submit(function(event){
+		console.log($(this)[0]);
+		console.log($("#data-upload-form")[0]);
+
 		var errorFlag = false;
 		// タイトル
 		if(document.videoInfo.title.value == "") {
-
 			document.getElementById('data-upload-form').style.display = 'none';
 			document.getElementById('upload-complete').style.display = 'block';
 			document.getElementById('upload-sucsess').style.display = 'none';
 			document.getElementById('upload-failed').style.display = 'block';
-
 			document.getElementById('title-required-error').style.display = 'block';
 			errorFlag = true;
 		}
@@ -105,9 +162,7 @@ $(function(){
 
 		if (!errorFlag) {
 			var formData = new FormData($(this)[0]);
-
 			var hostUrl= 'http://localhost:8080/sakaTube/videoUpload';
-
 			$.ajax({
 				url: hostUrl,
 				type:'POST',
