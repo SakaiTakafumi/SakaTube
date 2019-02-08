@@ -1,13 +1,8 @@
 package jp.co.sunarch.sakatube.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "VIDEO_INFO")
 public class SelectVideoInfo {
-	@Id
+
 	protected Long videoId;
 	protected String videoTitle;
 	protected String videoNote;

@@ -2,10 +2,8 @@ package jp.co.sunarch.sakatube.entity;
 
 import java.io.InputStream;
 
-import javax.persistence.Id;
-
 public class VideoInfoEntity {
-	@Id
+
 	protected Long videoId;
 	protected String videoTitle;
 	protected String videoNote;
