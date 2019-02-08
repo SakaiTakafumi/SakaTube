@@ -39,7 +39,13 @@ public class VideoUploadService {
 				videoInfo.getTitle(), videoInfo.getNote(), videoInfo.getExtension(), videoInfo.getVideo().getInputStream());
 
 		VideoInfoDAO videoInfoDao = new VideoInfoDAO();
-		videoInfoDao.insertVideoInfo(videoInfoEntity, resultMap);
+
+		// 登録実行。実行の成否によってレスポンスを分ける。
+		if (videoInfoDao.insertVideoInfo(videoInfoEntity)) {
+			resultMap.put("uploadSuccess", "1");
+		} else {
+			resultMap.put("uploadSuccess", "0");
+		}
 
 		return resultMap;
 	}

@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import jp.co.sunarch.sakatube.DriverAccessor;
 import jp.co.sunarch.sakatube.entity.SelectVideoInfo;
@@ -36,11 +35,11 @@ public class VideoInfoDAO extends DriverAccessor{
 	/**
 	 * 画面から入力された情報をDBに反映します。
 	 *
-	 * @param title   動画タイトル
-	 * @param note    動画説明
-	 * @param video   動画
+	 * @param videoInfo
+	 *
+	 * @return true : 登録成功、false : 登録失敗
 	 */
-	public void insertVideoInfo(VideoInfoEntity videoInfo, Map<String, String> resultMap){
+	public boolean insertVideoInfo(VideoInfoEntity videoInfo){
 
 		Connection con = null;
 		con = createConnection();
@@ -58,12 +57,11 @@ public class VideoInfoDAO extends DriverAccessor{
 			videoInfoStmt.close();
 
 		} catch (SQLException e) {
-			resultMap.put("uploadSuccess", "0");
-			return;
+			return false;
 		} finally {
 			con = null;
 		}
-		resultMap.put("uploadSuccess", "1");
+		return true;
 	}
 
 	/**
