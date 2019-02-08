@@ -17,11 +17,11 @@ public class VideoSearchService {
 	 *
 	 * @param keyWord
 	 */
-	public List<VideoInfo> searchVideoInfoByKeyWord(String keyWord) {
+	public List<VideoInfo> searchVideoInfoByKeyword(String keyword) {
 		// レスポンス返却用
 		List<VideoInfo> resultList = new ArrayList<>();
 
-		List<SelectVideoInfo> videoInfoList = videoInfoDao.findVideoInfoByKeyWord(keyWord);
+		List<SelectVideoInfo> videoInfoList = videoInfoDao.findVideoInfoByKeyWord(keyword);
 
 		for (SelectVideoInfo selectVideoInfo : videoInfoList) {
 			VideoInfo videoInfo = new VideoInfo();

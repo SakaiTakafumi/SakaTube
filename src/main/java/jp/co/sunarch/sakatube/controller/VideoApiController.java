@@ -55,7 +55,7 @@ public class VideoApiController {
 		VideoSearchService videoSearchService = new VideoSearchService();
 
 		// 検索結果を取得する。
-		List<VideoInfo> resultList = videoSearchService.searchVideoInfoByKeyWord(keyWord);
+		List<VideoInfo> resultList = videoSearchService.searchVideoInfoByKeyword(keyWord);
 
 		return resultList;
 	}
