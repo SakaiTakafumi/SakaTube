@@ -105,7 +105,7 @@ $(function(){
 			contentType: false,
 			data : document.keyWord.word.value,
 		}).done(function(data) {
-			if (data.length == 0) {
+			if (data.length === 0) {
 				$("#videos").append('<p>該当する動画はありません。</p>');
 			} else {
 				for (var video in data) {
@@ -138,7 +138,7 @@ $(function(){
 
 		var errorFlag = false;
 		// タイトル
-		if(document.videoInfo.title.value == "") {
+		if(document.videoInfo.title.value === "") {
 			document.getElementById('data-upload-form').style.display = 'none';
 			document.getElementById('upload-complete').style.display = 'block';
 			document.getElementById('upload-sucsess').style.display = 'none';
@@ -148,7 +148,7 @@ $(function(){
 		}
 
 		// video
-		if(document.videoInfo.video.value == "") {
+		if(document.videoInfo.video.value === "") {
 			document.getElementById('data-upload-form').style.display = 'none';
 			document.getElementById('upload-complete').style.display = 'block';
 			document.getElementById('upload-sucsess').style.display = 'none';
@@ -174,22 +174,22 @@ $(function(){
 			}).done(function(data) {
 				document.getElementById('data-upload-form').style.display = 'none';
 				document.getElementById('upload-complete').style.display = 'block';
-				if (data.uploadSuccess == "1") {
+				if (data.uploadSuccess === "1") {
 					document.getElementById('upload-sucsess').style.display = 'block';
 					document.getElementById('upload-failed').style.display = 'none';
 				} else {
 					document.getElementById('upload-sucsess').style.display = 'none';
 					document.getElementById('upload-failed').style.display = 'block';
-					if (data.titleRequiredError == "1") {
+					if (data.titleRequiredError === "1") {
 						document.getElementById('title-required-error').style.display = 'block';
 					}
-					if (data.fileRequiredError == "1") {
+					if (data.fileRequiredError === "1") {
 						document.getElementById('file-required-error').style.display = 'block';
 					}
-					if (data.fileTypeError == "1") {
+					if (data.fileTypeError === "1") {
 						document.getElementById('file-type-error').style.display = 'block';
 					}
-					if (data.fileSizeError == "1") {
+					if (data.fileSizeError === "1") {
 						document.getElementById('file-size-error').style.display = 'block';
 					}
 				}
