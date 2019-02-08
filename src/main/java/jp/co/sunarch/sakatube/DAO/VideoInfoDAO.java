@@ -20,7 +20,6 @@ public class VideoInfoDAO extends DriverAccessor{
 	private static final int VIDEO = 4;
 
 	private static final String INSERT_INTO_VIDEO_INFO = "INSERT INTO VIDEO_INFO (VIDEO_ID, VIDEO_TITLE, VIDEO_NOTE, EXTENSION, VIDEO) VALUES ((SELECT NEXTVAL('VIDEO_ID_SEQ')),?,?,?,?)";
-	private static final String SELECT_VIDEO_ID_SEQ = "SELECT VIDEO_ID_SEQ.CURRVAL FROM DUAL";
 	private static final String SELECT_VIDEO_INFO_BY_KEY_WORD = "SELECT VIDEO_ID, VIDEO_TITLE, VIDEO_NOTE "
 			+ "FROM "
 			+ "VIDEO_INFO "
