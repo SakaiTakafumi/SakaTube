@@ -39,9 +39,8 @@ public class VideoSearchService {
 	 * @param keyWord
 	 */
 	public VideoInfo searchVideoInfoById(Long id) {
-		// レスポンス返却用
-		List<VideoInfo> resultList = new ArrayList<>();
 
+		// IDから動画情報を取得する。
 		SelectVideoInfo selectVideoInfo = videoInfoDao.findVideoInfoById(id);
 
 		VideoInfo videoInfo = new VideoInfo();
