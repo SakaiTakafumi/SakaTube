@@ -43,37 +43,44 @@
 					<h5 class="modal-title" id="demoModalTitle">動画アップロード</h5>
 				</div>
 
-				<form id="data-upload-form" th:object="${videoInfo}"
-					name="videoInfo" enctype="multipart/form-data" method="post">
-					<div class="modal-body">タイトル</div>
-					<input type="text" name="title" size="30" />
+				<div class="modal-body">
+					<form id="data-upload-form" th:object="${videoInfo}"
+						name="videoInfo" enctype="multipart/form-data" method="post">
 
-					<div class="modal-body">説明</div>
-					<textarea rows="5" cols="48" name="note"></textarea>
+						<div class="form-group">
+							<label class="col-form-label">タイトル</label> <input type="text"
+								class="form-control" name="title">
+						</div>
+						<div class="form-group">
+							<label class="col-form-label">説明</label>
+							<textarea class="form-control" name="note"></textarea>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label">ファイル</label> <input type="file"
+								size="30" name="video" />
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+							<input class="btn btn-primary" id="data_upload_button"
+								type="submit" value="アップロード" />
+						</div>
+					</form>
 
-					<div class="modal-body">ファイル</div>
-					<input type="file" size="30" name="video" />
-
-					<div class="modal-footer">
-						<button class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-						<input class="btn btn-primary" id="data_upload_button"
-							type="submit" value="アップロード" />
-					</div>
-				</form>
-
-				<div class="upload-complete" id="upload-complete">
-					<div class="modal-body" id="upload-sucsess">アップロードが完了しました</div>
-					<div class="modal-body" id="upload-failed">アップロードが失敗しました</div>
-					<div class="modal-body" id="title-required-error">・動画タイトルは必須です。</div>
-					<div class="modal-body" id="file-required-error">・ファイルを選択して下さい。</div>
-					<div class="modal-body" id="file-type-error">・動画ファイル以外はアップロード出来ません。</div>
-					<div class="modal-body" id="file-size-error">・サイズ上限を超えているためアップロード出来ません。</div>
-					<div class="modal-footer">
-						<button class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-						<input class="btn btn-primary" id="upload-continue" type="submit"
-							value="続ける" />
+					<div class="upload-complete" id="upload-complete">
+						<div class="modal-body" id="upload-sucsess">アップロードが完了しました</div>
+						<div class="modal-body" id="upload-failed">アップロードが失敗しました</div>
+						<div class="modal-body" id="title-required-error">・動画タイトルは必須です。</div>
+						<div class="modal-body" id="file-required-error">・ファイルを選択して下さい。</div>
+						<div class="modal-body" id="file-type-error">・動画ファイル以外はアップロード出来ません。</div>
+						<div class="modal-body" id="file-size-error">・サイズ上限を超えているためアップロード出来ません。</div>
+						<div class="modal-footer">
+							<button class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+							<input class="btn btn-primary" id="upload-continue" type="submit"
+								value="続ける" />
+						</div>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
