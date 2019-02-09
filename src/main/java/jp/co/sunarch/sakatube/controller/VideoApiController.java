@@ -8,7 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import jp.co.sunarch.sakatube.form.VideoInfo;
+import jp.co.sunarch.sakatube.Dto.VideoInfoDto;
 import jp.co.sunarch.sakatube.form.VideoInfoForm;
 import jp.co.sunarch.sakatube.service.VideoSearchService;
 import jp.co.sunarch.sakatube.service.VideoUploadService;
@@ -51,12 +51,12 @@ public class VideoApiController {
 	 * @return resultList
 	 */
 	@RequestMapping(value="api/search")
-	public List<VideoInfo> videoSearch(@RequestBody String keyWord) {
+	public List<VideoInfoDto> videoSearch(@RequestBody String keyWord) {
 
 		VideoSearchService videoSearchService = new VideoSearchService();
 
 		// 検索結果を取得する。
-		List<VideoInfo> resultList = videoSearchService.searchVideoInfoByKeyword(keyWord);
+		List<VideoInfoDto> resultList = videoSearchService.searchVideoInfoByKeyword(keyWord);
 
 		return resultList;
 	}

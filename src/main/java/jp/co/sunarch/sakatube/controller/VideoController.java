@@ -1,6 +1,6 @@
 package jp.co.sunarch.sakatube.controller;
 
-import jp.co.sunarch.sakatube.form.VideoInfo;
+import jp.co.sunarch.sakatube.Dto.VideoInfoDto;
 import jp.co.sunarch.sakatube.form.VideoInfoForm;
 import jp.co.sunarch.sakatube.service.VideoSearchService;
 
@@ -26,11 +26,11 @@ public class VideoController {
 	public String videoPlay(Model model, @PathVariable("id") Long id) {
 
 		VideoSearchService videoSearchService = new VideoSearchService();
-		VideoInfo videoInfo = videoSearchService.searchVideoInfoById(id);
+		VideoInfoDto videoInfoDto = videoSearchService.searchVideoInfoById(id);
 
-		model.addAttribute("path", path + "video/" + videoInfo.getId() + "/" + videoInfo.getExtension());
-		model.addAttribute("title", videoInfo.getTitle());
-		model.addAttribute("note", videoInfo.getNote());
+		model.addAttribute("path", path + "video/" + videoInfoDto.getId() + "/" + videoInfoDto.getExtension());
+		model.addAttribute("title", videoInfoDto.getTitle());
+		model.addAttribute("note", videoInfoDto.getNote());
 
 		return "video";
 	}

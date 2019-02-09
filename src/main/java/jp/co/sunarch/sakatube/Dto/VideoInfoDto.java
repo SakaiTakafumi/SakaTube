@@ -1,8 +1,7 @@
-package jp.co.sunarch.sakatube.form;
+package jp.co.sunarch.sakatube.Dto;
 
-import org.springframework.web.multipart.MultipartFile;
 
-public class VideoInfo {
+public class VideoInfoDto {
 
 	private Long id;
 
@@ -11,8 +10,6 @@ public class VideoInfo {
 	private String note;
 
 	private String extension;
-
-	private MultipartFile video;
 
 	public Long getId() {
 		return id;
@@ -39,16 +36,10 @@ public class VideoInfo {
 	public void setExtension(String extension) {
 		this.extension = extension;
 	}
-	public MultipartFile getVideo() {
-		return video;
-	}
-	public void setVideo(MultipartFile video) {
-		this.video = video;
-	}
 
 	@Override
 	public String toString() {
 		return "VideoInfo [id=" + id + ", title=" + title + ", note=" + note
-				+ ", extension=" + extension + ", video=" + video + "]";
+				+ ", extension=" + extension + "]";
 	}
 }

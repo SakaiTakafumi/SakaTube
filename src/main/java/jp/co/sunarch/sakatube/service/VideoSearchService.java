@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.co.sunarch.sakatube.DAO.VideoInfoDAO;
+import jp.co.sunarch.sakatube.Dto.VideoInfoDto;
 import jp.co.sunarch.sakatube.entity.SelectVideoInfo;
-import jp.co.sunarch.sakatube.form.VideoInfo;
 
 public class VideoSearchService {
 
@@ -17,14 +17,14 @@ public class VideoSearchService {
 	 *
 	 * @param keyWord
 	 */
-	public List<VideoInfo> searchVideoInfoByKeyword(String keyword) {
+	public List<VideoInfoDto> searchVideoInfoByKeyword(String keyword) {
 		// レスポンス返却用
-		List<VideoInfo> resultList = new ArrayList<>();
+		List<VideoInfoDto> resultList = new ArrayList<>();
 
 		List<SelectVideoInfo> videoInfoList = videoInfoDao.findVideoInfoByKeyWord(keyword);
 
 		for (SelectVideoInfo selectVideoInfo : videoInfoList) {
-			VideoInfo videoInfo = new VideoInfo();
+			VideoInfoDto videoInfo = new VideoInfoDto();
 			videoInfo.setId(selectVideoInfo.getVideoId());
 			videoInfo.setTitle(selectVideoInfo.getVideoTitle());
 			videoInfo.setNote(selectVideoInfo.getVideoNote());
@@ -38,12 +38,12 @@ public class VideoSearchService {
 	 *
 	 * @param keyWord
 	 */
-	public VideoInfo searchVideoInfoById(Long id) {
+	public VideoInfoDto searchVideoInfoById(Long id) {
 
 		// IDから動画情報を取得する。
 		SelectVideoInfo selectVideoInfo = videoInfoDao.findVideoInfoById(id);
 
-		VideoInfo videoInfo = new VideoInfo();
+		VideoInfoDto videoInfo = new VideoInfoDto();
 		videoInfo.setId(selectVideoInfo.getVideoId());
 		videoInfo.setTitle(selectVideoInfo.getVideoTitle());
 		videoInfo.setNote(selectVideoInfo.getVideoNote());
