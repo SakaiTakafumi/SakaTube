@@ -21,7 +21,8 @@ public class VideoSearchService {
 		// レスポンス返却用
 		List<VideoInfoDto> resultList = new ArrayList<>();
 
-		List<SelectVideoInfo> videoInfoList = videoInfoDao.findVideoInfoByKeyWord(keyword);
+		List<SelectVideoInfo> videoInfoList = videoInfoDao
+				.findVideoInfoByKeyWord(keyword);
 
 		for (SelectVideoInfo selectVideoInfo : videoInfoList) {
 			VideoInfoDto videoInfo = new VideoInfoDto();

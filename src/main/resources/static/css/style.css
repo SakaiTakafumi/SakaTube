@@ -4,6 +4,7 @@ h1 {
 	font-size: 36px;
 	margin: 0;
 }
+
 h2 {
 	font-size: 20px;
 	margin: 0;
@@ -28,8 +29,6 @@ textarea {
 	padding: 8px;
 }
 
-
-
 input.button {
 	width: 50%;
 	background-color: #2096F3;
@@ -53,7 +52,7 @@ div.div_2 {
 
 div.div_3 {
 	clear: both;
-	text-align:center;
+	text-align: center;
 }
 
 div.div001 {
@@ -69,7 +68,7 @@ input.url {
 }
 
 #table-scroll {
-  height:150px;
-  overflow:auto;
-  margin-top:20px;
+	height: 150px;
+	overflow: auto;
+	margin-top: 20px;
 }

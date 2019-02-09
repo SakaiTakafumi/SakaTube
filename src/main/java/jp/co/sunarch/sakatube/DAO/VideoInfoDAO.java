@@ -12,7 +12,7 @@ import jp.co.sunarch.sakatube.DriverAccessor;
 import jp.co.sunarch.sakatube.entity.SelectVideoInfo;
 import jp.co.sunarch.sakatube.entity.VideoInfoEntity;
 
-public class VideoInfoDAO extends DriverAccessor{
+public class VideoInfoDAO extends DriverAccessor {
 
 	private static final int VIDEO_TITLE = 1;
 	private static final int VIDEO_NOTE = 2;
@@ -27,9 +27,7 @@ public class VideoInfoDAO extends DriverAccessor{
 			+ "VIDEO_TITLE LIKE ? "
 			+ "UNION SELECT VIDEO_ID, VIDEO_TITLE, VIDEO_NOTE "
 			+ "FROM "
-			+ "VIDEO_INFO "
-			+ "WHERE "
-			+ "VIDEO_NOTE LIKE ?";
+			+ "VIDEO_INFO " + "WHERE " + "VIDEO_NOTE LIKE ?";
 	private static final String SELECT_VIDEO_INFO_BY_ID = "SELECT VIDEO_ID, VIDEO_TITLE, VIDEO_NOTE, EXTENSION FROM VIDEO_INFO WHERE VIDEO_ID = ?";
 	private static final String SELECT_VIDEO_BY_ID = "SELECT VIDEO FROM VIDEO_INFO WHERE VIDEO_ID = ?";
 
@@ -40,12 +38,13 @@ public class VideoInfoDAO extends DriverAccessor{
 	 *
 	 * @return true : 登録成功、false : 登録失敗
 	 */
-	public boolean insertVideoInfo(VideoInfoEntity videoInfo){
+	public boolean insertVideoInfo(VideoInfoEntity videoInfo) {
 
 		Connection con = null;
 		con = createConnection();
-		try{
-			PreparedStatement videoInfoStmt = con.prepareStatement(INSERT_INTO_VIDEO_INFO);
+		try {
+			PreparedStatement videoInfoStmt = con
+					.prepareStatement(INSERT_INTO_VIDEO_INFO);
 
 			videoInfoStmt.setString(VIDEO_TITLE, videoInfo.getVideoTitle());
 			videoInfoStmt.setString(VIDEO_NOTE, videoInfo.getVideoNote());
@@ -75,14 +74,15 @@ public class VideoInfoDAO extends DriverAccessor{
 		Connection con = null;
 		con = createConnection();
 		try {
-			PreparedStatement videoStmt = con.prepareStatement(SELECT_VIDEO_INFO_BY_KEY_WORD);
+			PreparedStatement videoStmt = con
+					.prepareStatement(SELECT_VIDEO_INFO_BY_KEY_WORD);
 
 			videoStmt.setString(1, "%" + keyWord + "%");
 			videoStmt.setString(2, "%" + keyWord + "%");
 
 			ResultSet result = videoStmt.executeQuery();
 
-			while(result.next()) {
+			while (result.next()) {
 				SelectVideoInfo videoInfo = new SelectVideoInfo();
 				videoInfo.setVideoId(result.getLong(1));
 				videoInfo.setVideoTitle(result.getString(2));
@@ -90,7 +90,7 @@ public class VideoInfoDAO extends DriverAccessor{
 				videoInfoList.add(videoInfo);
 			}
 			videoStmt.close();
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con = null;
@@ -108,13 +108,14 @@ public class VideoInfoDAO extends DriverAccessor{
 		Connection con = null;
 		con = createConnection();
 		try {
-			PreparedStatement videoStmt = con.prepareStatement(SELECT_VIDEO_INFO_BY_ID);
+			PreparedStatement videoStmt = con
+					.prepareStatement(SELECT_VIDEO_INFO_BY_ID);
 
 			videoStmt.setLong(1, id);
 
 			ResultSet result = videoStmt.executeQuery();
 
-			while(result.next()) {
+			while (result.next()) {
 				videoInfo.setVideoId(result.getLong(1));
 				videoInfo.setVideoTitle(result.getString(2));
 				videoInfo.setVideoNote(result.getString(3));
@@ -122,7 +123,7 @@ public class VideoInfoDAO extends DriverAccessor{
 				return videoInfo;
 			}
 			videoStmt.close();
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con = null;
@@ -141,17 +142,18 @@ public class VideoInfoDAO extends DriverAccessor{
 		Connection con = null;
 		con = createConnection();
 		try {
-			PreparedStatement videoStmt = con.prepareStatement(SELECT_VIDEO_BY_ID);
+			PreparedStatement videoStmt = con
+					.prepareStatement(SELECT_VIDEO_BY_ID);
 
 			videoStmt.setLong(1, id);
 
 			ResultSet result = videoStmt.executeQuery();
 
-			while(result.next()) {
+			while (result.next()) {
 				video = result.getBinaryStream(1);
 			}
 			videoStmt.close();
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			con = null;

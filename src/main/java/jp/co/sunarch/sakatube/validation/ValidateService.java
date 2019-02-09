@@ -9,14 +9,15 @@ import org.thymeleaf.util.StringUtils;
 
 public class ValidateService {
 
-	public static String[] typeList = {"MP4","MOV","AVI"};
+	public static String[] typeList = { "MP4", "MOV", "AVI" };
 
 	/**
 	 * バリデーションチェックを行います。
 	 *
 	 * @param videoInfoForm
 	 */
-	public void executeValidation(VideoInfoForm videoInfoForm, Map<String, String> resultMap) {
+	public void executeValidation(VideoInfoForm videoInfoForm,
+			Map<String, String> resultMap) {
 
 		// 動画タイトルの必須チェック
 		checkTitleRequired(videoInfoForm.getTitle(), resultMap);
@@ -45,7 +46,8 @@ public class ValidateService {
 	 *
 	 * @param file
 	 */
-	public void checkFileRequired(MultipartFile file, Map<String, String> resultMap) {
+	public void checkFileRequired(MultipartFile file,
+			Map<String, String> resultMap) {
 		if (file.isEmpty()) {
 			resultMap.put("fileRequiredError", "1");
 		}

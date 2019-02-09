@@ -1,216 +1,282 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8" />
-	<title>動画一覧</title>
-		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></link>
+<meta charset="UTF-8" />
+<title>動画一覧</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous"></link>
 </head>
 <body>
 
 	<nav class="navbar navbar-expand-md navbar-light bg-light">
-		<div align="left"><p>SakaTube</p></div>
-
-		<form id="data-search-form"  name="keyWord" method="get">
-		<div class="input-group mb-3">
-			<input type="text" name="word" class="form-control" placeholder="検索ワードを入力して下さい。" />
-			<div class="input-group-append">
-				<button class="btn btn-outline-secondary" id="data_serch_button" type="submit">検索</button>
-			</div>
+		<div align="left">
+			<p>SakaTube</p>
 		</div>
+
+		<form id="data-search-form" name="keyWord" method="get">
+			<div class="input-group mb-3">
+				<input type="text" name="word" class="form-control"
+					placeholder="検索ワードを入力して下さい。" />
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" id="data_serch_button"
+						type="submit">検索</button>
+				</div>
+			</div>
 		</form>
 
 		<!-- ボタン -->
-		<button type="button" class="btn btn-primary" id="video-upload" data-toggle="modal" data-target="#demoNormalModal">動画アップロード</button>
+		<button type="button" class="btn btn-primary" id="video-upload"
+			data-toggle="modal" data-target="#demoNormalModal">動画アップロード</button>
 	</nav>
 
-	<div id="videos">
+	<div id="videos"></div>
 
-	</div>
+	<!-- モーダルダイアログ -->
+	<div class="modal fade" id="demoNormalModal" tabindex="-1"
+		role="dialog" aria-labelledby="modal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="demoModalTitle">動画アップロード</h5>
+				</div>
 
-		<!-- モーダルダイアログ -->
-		<div class="modal fade" id="demoNormalModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="demoModalTitle">動画アップロード</h5>
+				<form id="data-upload-form" th:object="${videoInfo}"
+					name="videoInfo" enctype="multipart/form-data" method="post">
+					<div class="modal-body">タイトル</div>
+					<input type="text" name="title" size="30" />
+
+					<div class="modal-body">説明</div>
+					<textarea rows="5" cols="48" name="note"></textarea>
+
+					<div class="modal-body">ファイル</div>
+					<input type="file" size="30" name="video" />
+
+					<div class="modal-footer">
+						<button class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+						<input class="btn btn-primary" id="data_upload_button"
+							type="submit" value="アップロード" />
 					</div>
+				</form>
 
-					<form id="data-upload-form" th:object="${videoInfo}" name="videoInfo" enctype="multipart/form-data" method="post">
-						<div class="modal-body">タイトル</div>
-						<input type="text" name="title" size="30" />
-
-						<div class="modal-body">説明</div>
-						<textarea rows="5" cols="48" name="note"></textarea>
-
-						<div class="modal-body">ファイル</div>
-						<input type="file" size="30" name="video" />
-
-						<div class="modal-footer">
-							<button  class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-							<input class="btn btn-primary" id="data_upload_button" type="submit" value="アップロード" />
-						</div>
-					</form>
-
-					<div class="upload-complete" id="upload-complete">
-						<div class="modal-body" id="upload-sucsess">アップロードが完了しました</div>
-						<div class="modal-body" id="upload-failed">アップロードが失敗しました</div>
-						<div class="modal-body" id="title-required-error">・動画タイトルは必須です。</div>
-						<div class="modal-body" id="file-required-error">・ファイルを選択して下さい。</div>
-						<div class="modal-body" id="file-type-error">・動画ファイル以外はアップロード出来ません。</div>
-						<div class="modal-body" id="file-size-error">・サイズ上限を超えているためアップロード出来ません。</div>
-						<div class="modal-footer">
-							<button  class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-							<input class="btn btn-primary" id="upload-continue" type="submit" value="続ける" />
-						</div>
+				<div class="upload-complete" id="upload-complete">
+					<div class="modal-body" id="upload-sucsess">アップロードが完了しました</div>
+					<div class="modal-body" id="upload-failed">アップロードが失敗しました</div>
+					<div class="modal-body" id="title-required-error">・動画タイトルは必須です。</div>
+					<div class="modal-body" id="file-required-error">・ファイルを選択して下さい。</div>
+					<div class="modal-body" id="file-type-error">・動画ファイル以外はアップロード出来ません。</div>
+					<div class="modal-body" id="file-size-error">・サイズ上限を超えているためアップロード出来ません。</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+						<input class="btn btn-primary" id="upload-continue" type="submit"
+							value="続ける" />
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 
 	<!-- jQuery、Popper.js、Bootstrap JS -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" type="text/javascript" ></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+		type="text/javascript"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
 
 </body>
 
 <script th:inline="javascript">
-/*<![CDATA[*/
-// 主処理部
-$(function(){
-	$("p").css('font-size', '+=5');
-	$('.input-group mb-3').width(800).offset({left: 800});
-	$('#video-upload').offset({left: 1200});
+	/*<![CDATA[*/
+	// 主処理部
+	$(function() {
+		$("p").css('font-size', '+=5');
+		$('.input-group mb-3').width(800).offset({
+			left : 800
+		});
+		$('#video-upload').offset({
+			left : 1200
+		});
 
-	// 検索ボタン押下時
-	$("#data-search-form").submit(function(event){
+		// 検索ボタン押下時
+		$("#data-search-form")
+				.submit(
+						function(event) {
 
-		// 前の検索結果を削除する。
-		$("#videos").empty();
+							// 前の検索結果を削除する。
+							$("#videos").empty();
 
-		// 要素規定の動作をキャンセルする
-		event.preventDefault();
+							// 要素規定の動作をキャンセルする
+							event.preventDefault();
 
-		var jsonString = $('.form-control').serializeArray();
-		var formData = JSON.stringify(jsonString);
+							var jsonString = $('.form-control')
+									.serializeArray();
+							var formData = JSON.stringify(jsonString);
 
-		var hostUrl= 'http://localhost:8080/api/search';
+							var hostUrl = 'http://localhost:8080/api/search';
 
-		$.ajax({
-			url: hostUrl,
-			type:'POST',
-			dataType: 'json',
-			processData: false,
-			contentType: false,
-			data : document.keyWord.word.value,
-		}).done(function(data) {
-			if (data.length === 0) {
-				$("#videos").append('<p>該当する動画はありません。</p>');
-			} else {
-				for (var video in data) {
-					$("#videos").append('<a href="http://localhost:8080/video/' + data[video].id + '">' + data[video].title + '</a><br>');
-					$("#videos").append('<p>説明：'+ data[video].note + '</p>');
-				}
-			}
+							$
+									.ajax({
+										url : hostUrl,
+										type : 'POST',
+										dataType : 'json',
+										processData : false,
+										contentType : false,
+										data : document.keyWord.word.value,
+									})
+									.done(
+											function(data) {
+												if (data.length === 0) {
+													$("#videos")
+															.append(
+																	'<p>該当する動画はありません。</p>');
+												} else {
+													for ( var video in data) {
+														$("#videos")
+																.append(
+																		'<a href="http://localhost:8080/video/' + data[video].id + '">'
+																				+ data[video].title
+																				+ '</a><br>');
+														$("#videos")
+																.append(
+																		'<p>説明：'
+																				+ data[video].note
+																				+ '</p>');
+													}
+												}
 
-		}).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-			$("#videos").append('<p>動画を検索出来ませんでした。</p>');
-		})
+											})
+									.fail(
+											function(XMLHttpRequest,
+													textStatus, errorThrown) {
+												$("#videos")
+														.append(
+																'<p>動画を検索出来ませんでした。</p>');
+											})
+						});
+
+		// アップロードダイアログ表示時
+		$("#video-upload")
+				.click(
+						function(event) {
+							document.videoInfo.reset();
+							document.getElementById('data-upload-form').style.display = 'block';
+							document.getElementById('upload-complete').style.display = 'none';
+
+							document.getElementById('title-required-error').style.display = 'none';
+							document.getElementById('file-required-error').style.display = 'none';
+							document.getElementById('file-type-error').style.display = 'none';
+							document.getElementById('file-size-error').style.display = 'none';
+						});
+
+		// アップロードボタンを押下
+		$("#data-upload-form")
+				.submit(
+						function(event) {
+							console.log($(this)[0]);
+							console.log($("#data-upload-form")[0]);
+
+							var errorFlag = false;
+							// タイトル
+							if (document.videoInfo.title.value === "") {
+								document.getElementById('data-upload-form').style.display = 'none';
+								document.getElementById('upload-complete').style.display = 'block';
+								document.getElementById('upload-sucsess').style.display = 'none';
+								document.getElementById('upload-failed').style.display = 'block';
+								document.getElementById('title-required-error').style.display = 'block';
+								errorFlag = true;
+							}
+
+							// video
+							if (document.videoInfo.video.value === "") {
+								document.getElementById('data-upload-form').style.display = 'none';
+								document.getElementById('upload-complete').style.display = 'block';
+								document.getElementById('upload-sucsess').style.display = 'none';
+								document.getElementById('upload-failed').style.display = 'block';
+
+								document.getElementById('file-required-error').style.display = 'block';
+								errorFlag = true;
+							}
+
+							// 要素規定の動作をキャンセルする
+							event.preventDefault();
+
+							if (!errorFlag) {
+								var formData = new FormData($(this)[0]);
+								var hostUrl = 'http://localhost:8080/api/upload';
+								$
+										.ajax({
+											url : hostUrl,
+											type : 'POST',
+											dataType : 'json',
+											processData : false,
+											contentType : false,
+											data : formData,
+										})
+										.done(
+												function(data) {
+													document
+															.getElementById('data-upload-form').style.display = 'none';
+													document
+															.getElementById('upload-complete').style.display = 'block';
+													if (data.uploadSuccess === "1") {
+														document
+																.getElementById('upload-sucsess').style.display = 'block';
+														document
+																.getElementById('upload-failed').style.display = 'none';
+													} else {
+														document
+																.getElementById('upload-sucsess').style.display = 'none';
+														document
+																.getElementById('upload-failed').style.display = 'block';
+														if (data.titleRequiredError === "1") {
+															document
+																	.getElementById('title-required-error').style.display = 'block';
+														}
+														if (data.fileRequiredError === "1") {
+															document
+																	.getElementById('file-required-error').style.display = 'block';
+														}
+														if (data.fileTypeError === "1") {
+															document
+																	.getElementById('file-type-error').style.display = 'block';
+														}
+														if (data.fileSizeError === "1") {
+															document
+																	.getElementById('file-size-error').style.display = 'block';
+														}
+													}
+												})
+										.fail(
+												function(XMLHttpRequest,
+														textStatus, errorThrown) {
+													document
+															.getElementById('upload-sucsess').style.display = 'none';
+													document
+															.getElementById('upload-failed').style.display = 'block';
+												})
+							}
+						});
+
+		// 続けるボタンを押下
+		$("#upload-continue")
+				.click(
+						function(event) {
+							document.videoInfo.reset();
+
+							document.getElementById('data-upload-form').style.display = 'block';
+							document.getElementById('upload-complete').style.display = 'none';
+						});
 	});
 
-	// アップロードダイアログ表示時
-	$("#video-upload").click(function(event){
-		document.videoInfo.reset();
-		document.getElementById('data-upload-form').style.display = 'block';
-		document.getElementById('upload-complete').style.display = 'none';
-
-		document.getElementById('title-required-error').style.display = 'none';
-		document.getElementById('file-required-error').style.display = 'none';
-		document.getElementById('file-type-error').style.display = 'none';
-		document.getElementById('file-size-error').style.display = 'none';
-	});
-
-	// アップロードボタンを押下
-	$("#data-upload-form").submit(function(event){
-		console.log($(this)[0]);
-		console.log($("#data-upload-form")[0]);
-
-		var errorFlag = false;
-		// タイトル
-		if(document.videoInfo.title.value === "") {
-			document.getElementById('data-upload-form').style.display = 'none';
-			document.getElementById('upload-complete').style.display = 'block';
-			document.getElementById('upload-sucsess').style.display = 'none';
-			document.getElementById('upload-failed').style.display = 'block';
-			document.getElementById('title-required-error').style.display = 'block';
-			errorFlag = true;
-		}
-
-		// video
-		if(document.videoInfo.video.value === "") {
-			document.getElementById('data-upload-form').style.display = 'none';
-			document.getElementById('upload-complete').style.display = 'block';
-			document.getElementById('upload-sucsess').style.display = 'none';
-			document.getElementById('upload-failed').style.display = 'block';
-
-			document.getElementById('file-required-error').style.display = 'block';
-			errorFlag = true;
-		}
-
-		// 要素規定の動作をキャンセルする
-		event.preventDefault();
-
-		if (!errorFlag) {
-			var formData = new FormData($(this)[0]);
-			var hostUrl= 'http://localhost:8080/api/upload';
-			$.ajax({
-				url: hostUrl,
-				type:'POST',
-				dataType: 'json',
-				processData: false,
-				contentType: false,
-				data : formData,
-			}).done(function(data) {
-				document.getElementById('data-upload-form').style.display = 'none';
-				document.getElementById('upload-complete').style.display = 'block';
-				if (data.uploadSuccess === "1") {
-					document.getElementById('upload-sucsess').style.display = 'block';
-					document.getElementById('upload-failed').style.display = 'none';
-				} else {
-					document.getElementById('upload-sucsess').style.display = 'none';
-					document.getElementById('upload-failed').style.display = 'block';
-					if (data.titleRequiredError === "1") {
-						document.getElementById('title-required-error').style.display = 'block';
-					}
-					if (data.fileRequiredError === "1") {
-						document.getElementById('file-required-error').style.display = 'block';
-					}
-					if (data.fileTypeError === "1") {
-						document.getElementById('file-type-error').style.display = 'block';
-					}
-					if (data.fileSizeError === "1") {
-						document.getElementById('file-size-error').style.display = 'block';
-					}
-				}
-			}).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-				document.getElementById('upload-sucsess').style.display = 'none';
-				document.getElementById('upload-failed').style.display = 'block';
-			})
-		}
-	});
-
-	// 続けるボタンを押下
-	$("#upload-continue").click(function(event){
-		document.videoInfo.reset();
-
-		document.getElementById('data-upload-form').style.display = 'block';
-		document.getElementById('upload-complete').style.display = 'none';
-	});
-});
-
-/*]]>*/
-
+	/*]]>*/
 </script>
 
 </html>

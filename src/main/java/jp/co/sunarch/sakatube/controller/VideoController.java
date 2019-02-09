@@ -28,7 +28,8 @@ public class VideoController {
 		VideoSearchService videoSearchService = new VideoSearchService();
 		VideoInfoDto videoInfoDto = videoSearchService.searchVideoInfoById(id);
 
-		model.addAttribute("path", path + "video/" + videoInfoDto.getId() + "/" + videoInfoDto.getExtension());
+		model.addAttribute("path", path + "video/" + videoInfoDto.getId() + "/"
+				+ videoInfoDto.getExtension());
 		model.addAttribute("title", videoInfoDto.getTitle());
 		model.addAttribute("note", videoInfoDto.getNote());
 

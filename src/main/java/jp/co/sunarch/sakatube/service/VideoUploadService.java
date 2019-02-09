@@ -17,11 +17,17 @@ public class VideoUploadService {
 	 * @param videoInfoForm
 	 * @throws IOException
 	 */
-	public Map<String, String> insertVideo(VideoInfoForm videoInfoForm) throws IOException {
+	public Map<String, String> insertVideo(VideoInfoForm videoInfoForm)
+			throws IOException {
 		// レスポンス返却用
 		Map<String, String> resultMap = new HashMap<>();
 
-		String extension = videoInfoForm.getVideo().getOriginalFilename().substring(videoInfoForm.getVideo().getOriginalFilename().lastIndexOf(".") + 1).toUpperCase();
+		String extension = videoInfoForm
+				.getVideo()
+				.getOriginalFilename()
+				.substring(
+						videoInfoForm.getVideo().getOriginalFilename()
+								.lastIndexOf(".") + 1).toUpperCase();
 		videoInfoForm.setExtension(extension);
 
 		// バリデーションチェック
@@ -36,7 +42,9 @@ public class VideoUploadService {
 
 		// 動画の登録処理
 		VideoInfoEntity videoInfoEntity = new VideoInfoEntity(null,
-				videoInfoForm.getTitle(), videoInfoForm.getNote(), videoInfoForm.getExtension(), videoInfoForm.getVideo().getInputStream());
+				videoInfoForm.getTitle(), videoInfoForm.getNote(),
+				videoInfoForm.getExtension(), videoInfoForm.getVideo()
+						.getInputStream());
 
 		VideoInfoDAO videoInfoDao = new VideoInfoDAO();
 

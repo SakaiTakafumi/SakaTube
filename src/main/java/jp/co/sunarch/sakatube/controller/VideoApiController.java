@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
-//@RequestMapping(value="sakaTube", headers={"Accept=application/*", "Content-Type=multipart/*"})
+// @RequestMapping(value="sakaTube", headers={"Accept=application/*",
+// "Content-Type=multipart/*"})
 public class VideoApiController {
 
 	/**
@@ -33,15 +33,16 @@ public class VideoApiController {
 	 * @return resultMap
 	 * @throws IOException
 	 */
-	@RequestMapping(value="api/upload", method = RequestMethod.POST)
-	public Map<String, String> videoUpload(@ModelAttribute VideoInfoForm videoInfoForm) throws IOException {
+	@RequestMapping(value = "api/upload", method = RequestMethod.POST)
+	public Map<String, String> videoUpload(
+			@ModelAttribute VideoInfoForm videoInfoForm) throws IOException {
 
 		VideoUploadService videoUploadService = new VideoUploadService();
-		Map<String, String> resultMap = videoUploadService.insertVideo(videoInfoForm);
+		Map<String, String> resultMap = videoUploadService
+				.insertVideo(videoInfoForm);
 
 		return resultMap;
 	}
-
 
 	/**
 	 * 検索ボタン押下時
@@ -50,13 +51,14 @@ public class VideoApiController {
 	 *
 	 * @return resultList
 	 */
-	@RequestMapping(value="api/search")
+	@RequestMapping(value = "api/search")
 	public List<VideoInfoDto> videoSearch(@RequestBody String keyWord) {
 
 		VideoSearchService videoSearchService = new VideoSearchService();
 
 		// 検索結果を取得する。
-		List<VideoInfoDto> resultList = videoSearchService.searchVideoInfoByKeyword(keyWord);
+		List<VideoInfoDto> resultList = videoSearchService
+				.searchVideoInfoByKeyword(keyWord);
 
 		return resultList;
 	}
@@ -71,13 +73,15 @@ public class VideoApiController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "api/video/{id}/{extension}")
-	public void videoSearch(@PathVariable("id") Long id, @PathVariable("extension") String extension, HttpServletResponse res) throws IOException {
+	public void videoSearch(@PathVariable("id") Long id,
+			@PathVariable("extension") String extension, HttpServletResponse res)
+			throws IOException {
 
 		VideoSearchService videoSearchService = new VideoSearchService();
 		InputStream inputStream = videoSearchService.searchVideoById(id);
 		OutputStream outputStream = res.getOutputStream();
 
-//		res.addHeader("Content-Type", "video/mp4");
+		// res.addHeader("Content-Type", "video/mp4");
 		copy(inputStream, outputStream);
 	}
 

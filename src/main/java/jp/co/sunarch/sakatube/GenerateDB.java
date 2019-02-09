@@ -4,8 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-
-public class GenerateDB extends DriverAccessor{
+public class GenerateDB extends DriverAccessor {
 
 	/**
 	 * 動画情報テーブルのDDL
@@ -24,15 +23,15 @@ public class GenerateDB extends DriverAccessor{
 	 */
 	private static final String CREATE_VIDEO_ID_SEQ = "CREATE SEQUENCE IF NOT EXISTS VIDEO_ID_SEQ";
 
-	public void createDB(){
-    	createTable();
+	public void createDB() {
+		createTable();
 	}
 
 	/**
 	 * DB環境の構築を行います。
 	 *
 	 */
-	private void createTable(){
+	private void createTable() {
 
 		Connection con = null;
 		con = createConnection();
@@ -40,18 +39,20 @@ public class GenerateDB extends DriverAccessor{
 		try {
 
 			// 動画IDのシーケンス
-			PreparedStatement eventIdSeqStmt = con.prepareStatement(CREATE_VIDEO_ID_SEQ);
+			PreparedStatement eventIdSeqStmt = con
+					.prepareStatement(CREATE_VIDEO_ID_SEQ);
 			eventIdSeqStmt.executeUpdate();
 			eventIdSeqStmt.close();
 
 			// 動画情報テーブル
-			PreparedStatement eventInfoDdlStmt = con.prepareStatement(VIDEO_INFO_DDL);
+			PreparedStatement eventInfoDdlStmt = con
+					.prepareStatement(VIDEO_INFO_DDL);
 			eventInfoDdlStmt.executeUpdate();
 			eventInfoDdlStmt.close();
 
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 
-		} catch(Exception e) {
+		} catch (Exception e) {
 
 		} finally {
 			con = null;
