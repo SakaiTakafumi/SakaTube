@@ -1,5 +1,6 @@
 package jp.co.sunarch.sakatube.DAO;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -135,8 +136,8 @@ public class VideoInfoDAO extends DriverAccessor{
 	 * @param eventId
 	 * @param scheduleList
 	 */
-	public byte[] findVideoById(Long id) {
-		byte[] video = null;
+	public InputStream findVideoById(Long id) {
+		InputStream video = null;
 		Connection con = null;
 		con = createConnection();
 		try {
@@ -147,7 +148,7 @@ public class VideoInfoDAO extends DriverAccessor{
 			ResultSet result = videoStmt.executeQuery();
 
 			while(result.next()) {
-				video = result.getBytes(1);
+				video = result.getBinaryStream(1);
 			}
 			videoStmt.close();
 		} catch(SQLException e) {

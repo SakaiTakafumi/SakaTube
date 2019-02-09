@@ -1,6 +1,6 @@
 package jp.co.sunarch.sakatube.service;
 
-import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,10 +56,10 @@ public class VideoSearchService {
 	 *
 	 * @param keyWord
 	 */
-	public ByteArrayInputStream searchVideoById(Long id) {
-		byte[] video = videoInfoDao.findVideoById(id);
-		ByteArrayInputStream bis = new ByteArrayInputStream(video);
+	public InputStream searchVideoById(Long id) {
+		// IDから動画を取得する。
+		InputStream video = videoInfoDao.findVideoById(id);
 
-		return bis;
+		return video;
 	}
 }

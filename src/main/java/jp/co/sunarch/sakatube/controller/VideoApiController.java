@@ -1,7 +1,7 @@
 package jp.co.sunarch.sakatube.controller;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
@@ -73,14 +73,14 @@ public class VideoApiController {
 	public void videoSearch(@PathVariable("id") Long id, @PathVariable("extension") String extension, HttpServletResponse res) throws IOException {
 
 		VideoSearchService videoSearchService = new VideoSearchService();
-		ByteArrayInputStream inputStream = videoSearchService.searchVideoById(id);
+		InputStream inputStream = videoSearchService.searchVideoById(id);
 		OutputStream outputStream = res.getOutputStream();
 
 //		res.addHeader("Content-Type", "video/mp4");
 		copy(inputStream, outputStream);
 	}
 
-	private void copy(ByteArrayInputStream in, OutputStream out) throws IOException {
+	private void copy(InputStream in, OutputStream out) throws IOException {
 		byte[] buff = new byte[8192];
 		int len = -1;
 		while ((len = in.read(buff, 0, buff.length)) != -1) {
