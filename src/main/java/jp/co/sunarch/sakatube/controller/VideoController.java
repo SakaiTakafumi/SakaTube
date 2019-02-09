@@ -1,6 +1,7 @@
 package jp.co.sunarch.sakatube.controller;
 
 import jp.co.sunarch.sakatube.form.VideoInfo;
+import jp.co.sunarch.sakatube.form.VideoInfoForm;
 import jp.co.sunarch.sakatube.service.VideoSearchService;
 
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ public class VideoController {
 	// 動画一覧画面表示
 	@RequestMapping("/videos")
 	public String videoList(Model model) {
-		model.addAttribute("videoInfo", new VideoInfo());
+		model.addAttribute("videoInfo", new VideoInfoForm());
 		return "videoList";
 	}
 

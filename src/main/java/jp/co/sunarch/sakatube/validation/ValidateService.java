@@ -2,7 +2,7 @@ package jp.co.sunarch.sakatube.validation;
 
 import java.util.Map;
 
-import jp.co.sunarch.sakatube.form.VideoInfo;
+import jp.co.sunarch.sakatube.form.VideoInfoForm;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
@@ -14,18 +14,18 @@ public class ValidateService {
 	/**
 	 * バリデーションチェックを行います。
 	 *
-	 * @param videoInfo
+	 * @param videoInfoForm
 	 */
-	public void executeValidation(VideoInfo videoInfo, Map<String, String> resultMap) {
+	public void executeValidation(VideoInfoForm videoInfoForm, Map<String, String> resultMap) {
 
 		// 動画タイトルの必須チェック
-		checkTitleRequired(videoInfo.getTitle(), resultMap);
+		checkTitleRequired(videoInfoForm.getTitle(), resultMap);
 		// 選択されたファイルの存在チェック
-		checkFileRequired(videoInfo.getVideo(), resultMap);
+		checkFileRequired(videoInfoForm.getVideo(), resultMap);
 		// 選択されたファイルのサイズチェック
-		checkFileSize(videoInfo.getVideo(), resultMap);
+		checkFileSize(videoInfoForm.getVideo(), resultMap);
 		// 選択されたファイルのタイプチェック
-		checkFileType(videoInfo.getExtension(), resultMap);
+		checkFileType(videoInfoForm.getExtension(), resultMap);
 
 	}
 

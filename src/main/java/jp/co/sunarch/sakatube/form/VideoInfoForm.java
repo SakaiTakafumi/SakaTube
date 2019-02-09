@@ -8,6 +8,8 @@ public class VideoInfoForm {
 
 	private String note;
 
+	private String extension;
+
 	private MultipartFile video;
 
 	public String getTitle() {
@@ -22,6 +24,14 @@ public class VideoInfoForm {
 	public void setNote(String note) {
 		this.note = note;
 	}
+
+	public String getExtension() {
+		return extension;
+	}
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
+
 	public MultipartFile getVideo() {
 		return video;
 	}

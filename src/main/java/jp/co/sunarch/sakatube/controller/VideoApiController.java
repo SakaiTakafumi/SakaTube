@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import jp.co.sunarch.sakatube.form.VideoInfo;
+import jp.co.sunarch.sakatube.form.VideoInfoForm;
 import jp.co.sunarch.sakatube.service.VideoSearchService;
 import jp.co.sunarch.sakatube.service.VideoUploadService;
 
@@ -33,10 +34,10 @@ public class VideoApiController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value="api/upload", method = RequestMethod.POST)
-	public Map<String, String> videoUpload(@ModelAttribute VideoInfo videoInfo) throws IOException {
+	public Map<String, String> videoUpload(@ModelAttribute VideoInfoForm videoInfoForm) throws IOException {
 
 		VideoUploadService videoUploadService = new VideoUploadService();
-		Map<String, String> resultMap = videoUploadService.insertVideo(videoInfo);
+		Map<String, String> resultMap = videoUploadService.insertVideo(videoInfoForm);
 
 		return resultMap;
 	}
