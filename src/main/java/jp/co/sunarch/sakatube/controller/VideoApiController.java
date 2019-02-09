@@ -32,7 +32,7 @@ public class VideoApiController {
 	 * @return resultMap
 	 * @throws IOException
 	 */
-	@RequestMapping(value="sakaTube/videoUpload", method = RequestMethod.POST)
+	@RequestMapping(value="api/upload", method = RequestMethod.POST)
 	public Map<String, String> videoUpload(@ModelAttribute VideoInfo videoInfo) throws IOException {
 
 		VideoUploadService videoUploadService = new VideoUploadService();
@@ -49,7 +49,7 @@ public class VideoApiController {
 	 *
 	 * @return resultList
 	 */
-	@RequestMapping(value="sakaTube/search")
+	@RequestMapping(value="api/search")
 	public List<VideoInfo> videoSearch(@RequestBody String keyWord) {
 
 		VideoSearchService videoSearchService = new VideoSearchService();
@@ -69,7 +69,7 @@ public class VideoApiController {
 	 *
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "sakaTube/{id}/{extension}")
+	@RequestMapping(value = "api/video/{id}/{extension}")
 	public void videoSearch(@PathVariable("id") Long id, @PathVariable("extension") String extension, HttpServletResponse res) throws IOException {
 
 		VideoSearchService videoSearchService = new VideoSearchService();

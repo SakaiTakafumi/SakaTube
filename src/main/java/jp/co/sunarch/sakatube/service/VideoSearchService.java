@@ -47,6 +47,7 @@ public class VideoSearchService {
 		videoInfo.setId(selectVideoInfo.getVideoId());
 		videoInfo.setTitle(selectVideoInfo.getVideoTitle());
 		videoInfo.setNote(selectVideoInfo.getVideoNote());
+		videoInfo.setExtension(selectVideoInfo.getExtension());
 		return videoInfo;
 	}
 

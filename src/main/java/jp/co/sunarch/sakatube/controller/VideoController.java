@@ -9,9 +9,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class VideoClientController {
+public class VideoController {
 
-	private static String path = "http://localhost:8080/sakaTube/";
+	private static String path = "http://localhost:8080/api/";
+
+	// 動画一覧画面表示
+	@RequestMapping("/videos")
+	public String videoList(Model model) {
+		model.addAttribute("videoInfo", new VideoInfo());
+		return "videoList";
+	}
 
 	// 動画再生画面表示
 	@RequestMapping("/video/{id}")
@@ -20,7 +27,7 @@ public class VideoClientController {
 		VideoSearchService videoSearchService = new VideoSearchService();
 		VideoInfo videoInfo = videoSearchService.searchVideoInfoById(id);
 
-		model.addAttribute("path", path + videoInfo.getId() + "/" + videoInfo.getExtension());
+		model.addAttribute("path", path + "video/" + videoInfo.getId() + "/" + videoInfo.getExtension());
 		model.addAttribute("title", videoInfo.getTitle());
 		model.addAttribute("note", videoInfo.getNote());
 

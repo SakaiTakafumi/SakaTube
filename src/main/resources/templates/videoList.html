@@ -95,7 +95,7 @@ $(function(){
 		var jsonString = $('.form-control').serializeArray();
 		var formData = JSON.stringify(jsonString);
 
-		var hostUrl= 'http://localhost:8080/sakaTube/search';
+		var hostUrl= 'http://localhost:8080/api/search';
 
 		$.ajax({
 			url: hostUrl,
@@ -163,7 +163,7 @@ $(function(){
 
 		if (!errorFlag) {
 			var formData = new FormData($(this)[0]);
-			var hostUrl= 'http://localhost:8080/sakaTube/videoUpload';
+			var hostUrl= 'http://localhost:8080/api/upload';
 			$.ajax({
 				url: hostUrl,
 				type:'POST',
