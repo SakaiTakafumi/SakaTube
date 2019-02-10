@@ -127,7 +127,7 @@
 									.serializeArray();
 							var formData = JSON.stringify(jsonString);
 
-							var hostUrl = 'http://localhost:8080/api/search';
+							var hostUrl = '/api/search';
 
 							$
 									.ajax({
@@ -148,7 +148,7 @@
 													for ( var video in data) {
 														$("#videos")
 																.append(
-																		'<a href="http://localhost:8080/video/' + data[video].id + '">'
+																		'<a href="/video/' + data[video].id + '">'
 																				+ data[video].title
 																				+ '</a><br>');
 														$("#videos")
@@ -217,7 +217,7 @@
 
 							if (!errorFlag) {
 								var formData = new FormData($(this)[0]);
-								var hostUrl = 'http://localhost:8080/api/upload';
+								var hostUrl = '/api/upload';
 								$
 										.ajax({
 											url : hostUrl,

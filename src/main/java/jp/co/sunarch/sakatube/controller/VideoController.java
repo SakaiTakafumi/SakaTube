@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class VideoController {
 
-	private static String path = "http://localhost:8080/api/";
-
 	// 動画一覧画面表示
 	@RequestMapping("/videos")
 	public String videoList(Model model) {
@@ -28,7 +26,7 @@ public class VideoController {
 		VideoSearchService videoSearchService = new VideoSearchService();
 		VideoInfoDto videoInfoDto = videoSearchService.searchVideoInfoById(id);
 
-		model.addAttribute("path", path + "video/" + videoInfoDto.getId() + "/"
+		model.addAttribute("path", "/api/video/" + videoInfoDto.getId() + "/"
 				+ videoInfoDto.getExtension());
 		model.addAttribute("title", videoInfoDto.getTitle());
 		model.addAttribute("note", videoInfoDto.getNote());
