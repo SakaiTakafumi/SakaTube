@@ -1,6 +1,7 @@
 package jp.co.sunarch.sakatube.service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,20 +42,23 @@ public class VideoUploadService {
 		}
 
 		// 動画の登録処理
-		VideoInfoEntity videoInfoEntity = new VideoInfoEntity(null,
-				videoInfoForm.getTitle(), videoInfoForm.getNote(),
-				videoInfoForm.getExtension(), videoInfoForm.getVideo()
-						.getInputStream());
+		try (InputStream inputStream = videoInfoForm.getVideo()
+				.getInputStream()) {
+			VideoInfoEntity videoInfoEntity = new VideoInfoEntity(null,
+					videoInfoForm.getTitle(), videoInfoForm.getNote(),
+					videoInfoForm.getExtension(), inputStream);
 
-		VideoInfoDAO videoInfoDao = new VideoInfoDAO();
+			VideoInfoDAO videoInfoDao = new VideoInfoDAO();
 
-		// 登録実行。実行の成否によってレスポンスを分ける。
-		if (videoInfoDao.insertVideoInfo(videoInfoEntity)) {
-			resultMap.put("uploadSuccess", "1");
-		} else {
-			resultMap.put("uploadSuccess", "0");
+			// 登録実行。実行の成否によってレスポンスを分ける。
+			if (videoInfoDao.insertVideoInfo(videoInfoEntity)) {
+				resultMap.put("uploadSuccess", "1");
+			} else {
+				resultMap.put("uploadSuccess", "0");
+			}
+		} catch (IOException e) {
+			throw e;
 		}
-
 		return resultMap;
 	}
 }
