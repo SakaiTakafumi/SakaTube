@@ -34,11 +34,11 @@ public class VideoApiController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "api/upload", method = RequestMethod.POST)
-	public Map<String, String> videoUpload(
+	public Map<String, Boolean> videoUpload(
 			@ModelAttribute VideoInfoForm videoInfoForm) throws IOException {
 
 		VideoUploadService videoUploadService = new VideoUploadService();
-		Map<String, String> resultMap = videoUploadService
+		Map<String, Boolean> resultMap = videoUploadService
 				.insertVideo(videoInfoForm);
 
 		return resultMap;

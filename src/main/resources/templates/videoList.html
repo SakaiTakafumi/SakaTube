@@ -202,20 +202,20 @@
 							$('#data-upload-form').css('display', 'none');
 							$('#upload-complete').css('display', 'block');
 
-							if (data.uploadSuccess === "1") {
+							if (data.uploadSuccess) {
 								$("#upload-result").prepend('<div class="modal-body">アップロードが完了しました</div></br>');
 							} else {
 								$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
-								if (data.titleRequiredError === "1") {
+								if (data.titleRequiredError) {
 									$("#error").append ('<p>・動画タイトルは必須です。</p>');
 								}
-								if (data.fileRequiredError === "1") {
+								if (data.fileRequiredError) {
 									$("#error").append ('<p>・ファイルを選択して下さい。</p>');
 								}
-								if (data.fileTypeError === "1") {
+								if (data.fileTypeError) {
 									$("#error").append ('<p>・動画ファイル以外はアップロード出来ません。</p>');
 								}
-								if (data.fileSizeError === "1") {
+								if (data.fileSizeError) {
 									$("#error").append ('<p>・サイズ上限を超えているためアップロード出来ません。</p>');
 								}
 							}

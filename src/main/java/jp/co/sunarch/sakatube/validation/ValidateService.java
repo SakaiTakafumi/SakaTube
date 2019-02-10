@@ -16,8 +16,7 @@ public class ValidateService {
 	 *
 	 * @param videoInfoForm
 	 */
-	public void executeValidation(VideoInfoForm videoInfoForm,
-			Map<String, String> resultMap) {
+	public void executeValidation(VideoInfoForm videoInfoForm, Map<String, Boolean> resultMap) {
 
 		// 動画タイトルの必須チェック
 		checkTitleRequired(videoInfoForm.getTitle(), resultMap);
@@ -35,9 +34,9 @@ public class ValidateService {
 	 *
 	 * @param title
 	 */
-	public void checkTitleRequired(String title, Map<String, String> resultMap) {
+	public void checkTitleRequired(String title, Map<String, Boolean> resultMap) {
 		if (StringUtils.isEmpty(title)) {
-			resultMap.put("titleRequiredError", "1");
+			resultMap.put("titleRequiredError", true);
 		}
 	}
 
@@ -46,10 +45,9 @@ public class ValidateService {
 	 *
 	 * @param file
 	 */
-	public void checkFileRequired(MultipartFile file,
-			Map<String, String> resultMap) {
+	public void checkFileRequired(MultipartFile file, Map<String, Boolean> resultMap) {
 		if (file.isEmpty()) {
-			resultMap.put("fileRequiredError", "1");
+			resultMap.put("fileRequiredError", true);
 		}
 	}
 
@@ -58,9 +56,9 @@ public class ValidateService {
 	 *
 	 * @param file
 	 */
-	public void checkFileSize(MultipartFile file, Map<String, String> resultMap) {
+	public void checkFileSize(MultipartFile file, Map<String, Boolean> resultMap) {
 		if (file.getSize() > 500000000) {
-			resultMap.put("fileSizeError", "1");
+			resultMap.put("fileSizeError", true);
 		}
 	}
 
@@ -69,12 +67,12 @@ public class ValidateService {
 	 *
 	 * @param file
 	 */
-	public void checkFileType(String extension, Map<String, String> resultMap) {
+	public void checkFileType(String extension, Map<String, Boolean> resultMap) {
 		for (String okType : typeList) {
 			if (StringUtils.equals(extension, okType)) {
 				return;
 			}
 		}
-		resultMap.put("fileTypeError", "1");
+		resultMap.put("fileTypeError", true);
 	}
 }

@@ -18,17 +18,11 @@ public class VideoUploadService {
 	 * @param videoInfoForm
 	 * @throws IOException
 	 */
-	public Map<String, String> insertVideo(VideoInfoForm videoInfoForm)
-			throws IOException {
+	public Map<String, Boolean> insertVideo(VideoInfoForm videoInfoForm) throws IOException {
 		// レスポンス返却用
-		Map<String, String> resultMap = new HashMap<>();
+		Map<String, Boolean> resultMap = new HashMap<>();
 
-		String extension = videoInfoForm
-				.getVideo()
-				.getOriginalFilename()
-				.substring(
-						videoInfoForm.getVideo().getOriginalFilename()
-								.lastIndexOf(".") + 1).toUpperCase();
+		String extension = videoInfoForm.getVideo().getOriginalFilename().substring(videoInfoForm.getVideo().getOriginalFilename().lastIndexOf(".") + 1).toUpperCase();
 		videoInfoForm.setExtension(extension);
 
 		// バリデーションチェック
@@ -37,7 +31,7 @@ public class VideoUploadService {
 
 		// この時点でMapが空ではない場合は、何らかのバリデーションエラーがあるので、動画の登録処理は行わない。
 		if (!resultMap.isEmpty()) {
-			resultMap.put("uploadSuccess", "0");
+			resultMap.put("uploadSuccess", false);
 			return resultMap;
 		}
 
@@ -52,9 +46,9 @@ public class VideoUploadService {
 
 			// 登録実行。実行の成否によってレスポンスを分ける。
 			if (videoInfoDao.insertVideoInfo(videoInfoEntity)) {
-				resultMap.put("uploadSuccess", "1");
+				resultMap.put("uploadSuccess", true);
 			} else {
-				resultMap.put("uploadSuccess", "0");
+				resultMap.put("uploadSuccess", false);
 			}
 		} catch (IOException e) {
 			throw e;
