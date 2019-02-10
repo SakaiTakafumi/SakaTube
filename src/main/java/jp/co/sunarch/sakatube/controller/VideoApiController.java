@@ -78,11 +78,14 @@ public class VideoApiController {
 			throws IOException {
 
 		VideoSearchService videoSearchService = new VideoSearchService();
-		InputStream inputStream = videoSearchService.searchVideoById(id);
-		OutputStream outputStream = res.getOutputStream();
 
-		// res.addHeader("Content-Type", "video/mp4");
-		copy(inputStream, outputStream);
+		try (InputStream inputStream = videoSearchService.searchVideoById(id);
+				OutputStream outputStream = res.getOutputStream();) {
+			// res.addHeader("Content-Type", "video/mp4");
+			copy(inputStream, outputStream);
+		} catch (IOException e) {
+			throw e;
+		}
 	}
 
 	private void copy(InputStream in, OutputStream out) throws IOException {
