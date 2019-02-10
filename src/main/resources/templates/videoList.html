@@ -11,25 +11,22 @@
 </head>
 <body>
 
-	<nav class="navbar navbar-expand-md navbar-light bg-light">
-		<div class="text-left">
-			<p>SakaTube</p>
-		</div>
+	<div class="sticky-top">
+		<nav class="navbar navbar-dark bg-primary">
+			<a class="navbar-brand">SakaTube</a>
+			<form class="form-inline" id="data-search-form" name="keyWord" method="get">
+				<input class="form-control mr-sm-2" type="text" name="word" placeholder="検索ワードを入力して下さい。" aria-label="Search">
+				<button class="btn btn-light" id="data_serch_button" type="submit">検索</button>
+			</form>
+			<!-- ボタン -->
+			<button type="button" class="btn btn-light" id="video-upload" data-toggle="modal" data-target="#demoNormalModal">動画アップロード</button>
+		</nav>
+	</div>
 
-		<form id="data-search-form" name="keyWord" method="get">
-			<div class="input-group mb-3">
-				<input type="text" name="word" class="form-control" placeholder="検索ワードを入力して下さい。" />
-				<div class="input-group-append">
-					<button class="btn btn-outline-secondary" id="data_serch_button" type="submit">検索</button>
-				</div>
-			</div>
-		</form>
 
-		<!-- ボタン -->
-		<button type="button" class="btn btn-primary" id="video-upload" data-toggle="modal" data-target="#demoNormalModal">動画アップロード</button>
-	</nav>
+<div class="container">
 
-	<div id="videos"></div>
+	<div id="videos" class="list-group"></div>
 
 	<!-- モーダルダイアログ -->
 	<div class="modal fade" id="demoNormalModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
@@ -76,6 +73,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 
 	<!-- jQuery、Popper.js、Bootstrap JS -->
 	<script
@@ -96,13 +94,6 @@
 	/*<![CDATA[*/
 	// 主処理部
 	$(function() {
-		$("p").css('font-size', '+=5');
-		$('.input-group mb-3').width(800).offset({
-			left : 800
-		});
-		$('#video-upload').offset({
-			left : 1200
-		});
 
 		// 検索ボタン押下時
 		$("#data-search-form").submit (
@@ -133,8 +124,15 @@
 							$("#videos").append('<p>該当する動画はありません。</p>');
 						} else {
 							for (var video in data) {
-								$("#videos").append ('<a href="/video/' + data[video].id + '">' + data[video].title + '</a><br>');
-								$("#videos").append('<p>説明：' + data[video].note + '</p>');
+								var tmp =
+									'<a href="video/' + data[video].id + '" class="list-group-item list-group-item-action">'
+									+ '<div class="d-flex w-100 justify-content-between">'
+									+ '<h5 class="mb-1">' + data[video].title + '</h5>'
+									+ '</div>'
+									+ '<p class="mb-1">' + data[video].note + '</p>'
+									+ '</a>';
+
+								$("#videos").append (tmp);
 							}
 						}
 					}
@@ -175,7 +173,7 @@
 				}
 
 				// video
-				if ($("#video").val() === "") {
+				if ($("#video") === "") {
 					if (!errorFlag) {
 						$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
 					}

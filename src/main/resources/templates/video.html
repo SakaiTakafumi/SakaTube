@@ -11,12 +11,13 @@
 </head>
 <body>
 
-	<nav class="navbar navbar-expand-md navbar-light bg-light">
-		<div class="text-left">
-			<p>SakaTube</p>
-		</div>
-	</nav>
+	<div class="sticky-top">
+		<nav class="navbar navbar-dark bg-primary">
+			<a class="navbar-brand">SakaTube</a>
+		</nav>
+	</div>
 
+<div class="container">
 	<h1 th:text="${title}"></h1>
 
 	<video autoplay controls width="729" height="410">
@@ -37,14 +38,13 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
-
+</div>
 </body>
 
 <script th:inline="javascript">
 	/*<![CDATA[*/
 	// 主処理部
 	$(function() {
-		$("p").css('font-size', '+=5');
 
 	});
 
