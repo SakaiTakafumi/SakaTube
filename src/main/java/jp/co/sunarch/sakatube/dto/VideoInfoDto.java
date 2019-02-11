@@ -1,4 +1,4 @@
-package jp.co.sunarch.sakatube.Dto;
+package jp.co.sunarch.sakatube.dto;
 
 public class VideoInfoDto {
 

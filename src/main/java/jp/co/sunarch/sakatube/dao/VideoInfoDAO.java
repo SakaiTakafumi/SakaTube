@@ -1,4 +1,4 @@
-package jp.co.sunarch.sakatube.DAO;
+package jp.co.sunarch.sakatube.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
