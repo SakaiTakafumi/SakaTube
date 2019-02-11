@@ -1,6 +1,6 @@
 package jp.co.sunarch.sakatube.controller;
 
-import jp.co.sunarch.sakatube.Dto.VideoInfoDto;
+import jp.co.sunarch.sakatube.dto.VideoInfoDto;
 import jp.co.sunarch.sakatube.form.VideoInfoForm;
 import jp.co.sunarch.sakatube.service.VideoSearchService;
 

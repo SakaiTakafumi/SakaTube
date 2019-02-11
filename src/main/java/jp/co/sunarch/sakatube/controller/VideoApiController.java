@@ -8,7 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import jp.co.sunarch.sakatube.Dto.VideoInfoDto;
+import jp.co.sunarch.sakatube.dto.VideoInfoDto;
 import jp.co.sunarch.sakatube.form.VideoInfoForm;
 import jp.co.sunarch.sakatube.service.VideoSearchService;
 import jp.co.sunarch.sakatube.service.VideoUploadService;

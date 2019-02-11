@@ -5,8 +5,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.co.sunarch.sakatube.DAO.VideoInfoDAO;
-import jp.co.sunarch.sakatube.Dto.VideoInfoDto;
+import jp.co.sunarch.sakatube.dao.VideoInfoDAO;
+import jp.co.sunarch.sakatube.dto.VideoInfoDto;
 import jp.co.sunarch.sakatube.entity.SelectVideoInfo;
 
 public class VideoSearchService {

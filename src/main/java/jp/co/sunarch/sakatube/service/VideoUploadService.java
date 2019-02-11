@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import jp.co.sunarch.sakatube.DAO.VideoInfoDAO;
+import jp.co.sunarch.sakatube.dao.VideoInfoDAO;
 import jp.co.sunarch.sakatube.entity.VideoInfoEntity;
 import jp.co.sunarch.sakatube.form.VideoInfoForm;
 import jp.co.sunarch.sakatube.validation.ValidateService;
