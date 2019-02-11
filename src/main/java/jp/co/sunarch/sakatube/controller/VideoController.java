@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class VideoController {
 
+	@RequestMapping("/")
+	public String index(Model model) {
+		model.addAttribute("videoInfo", new VideoInfoForm());
+		return "videoList";
+	}
+
 	// 動画一覧画面表示
 	@RequestMapping("/videos")
 	public String videoList(Model model) {
