@@ -15,7 +15,7 @@
 		<nav class="navbar navbar-dark bg-primary">
 			<a class="navbar-brand">SakaTube</a>
 			<form class="form-inline" id="data-search-form" name="keyWord" method="get">
-				<input class="form-control mr-sm-2" type="text" name="word" placeholder="検索ワードを入力して下さい。" aria-label="Search">
+				<input class="form-control mr-sm-2" type="text" id="keyword" name="word" placeholder="検索ワードを入力して下さい。" aria-label="Search">
 				<button class="btn btn-light" id="data_serch_button" type="submit">検索</button>
 			</form>
 			<!-- ボタン -->
@@ -105,10 +105,12 @@
 				// 要素規定の動作をキャンセルする
 				event.preventDefault();
 
-				var jsonString = $('.form-control').serializeArray();
-				var formData = JSON.stringify(jsonString);
+				if ($("#keyword").val() === "") {
+					$("#videos").append('<p>検索ワードを入力して下さい。</p>');
+					return;
+				}
 
-				var hostUrl = '/api/search';
+				var hostUrl = '/api/search/' + $("#keyword").val();
 
 				$.ajax({
 					url : hostUrl,
@@ -116,7 +118,7 @@
 					dataType : 'json',
 					processData : false,
 					contentType : false,
-					data : document.keyWord.word.value,
+					data : '',
 				})
 				.done (
 					function(data) {

@@ -15,7 +15,6 @@ import jp.co.sunarch.sakatube.service.VideoUploadService;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,18 +46,18 @@ public class VideoApiController {
 	/**
 	 * 検索ボタン押下時
 	 *
-	 * @param keyWord
+	 * @param keyword
 	 *
 	 * @return resultList
 	 */
-	@RequestMapping(value = "api/search")
-	public List<VideoInfoDto> videoSearch(@RequestBody String keyWord) {
+	@RequestMapping(value = "api/search/{keyword}")
+	public List<VideoInfoDto> videoSearch(@PathVariable("keyword") String keyword) {
 
 		VideoSearchService videoSearchService = new VideoSearchService();
 
 		// 検索結果を取得する。
 		List<VideoInfoDto> resultList = videoSearchService
-				.searchVideoInfoByKeyword(keyWord);
+				.searchVideoInfoByKeyword(keyword);
 
 		return resultList;
 	}
