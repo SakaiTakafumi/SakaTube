@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import jp.co.sunarch.sakatube.DriverAccessor;
 import jp.co.sunarch.sakatube.entity.SelectVideoInfo;
 import jp.co.sunarch.sakatube.entity.VideoInfoEntity;
 
@@ -14,7 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VideoInfoDAO extends DriverAccessor {
+public class VideoInfoDAO {
 
 	@Autowired
 	JdbcTemplate jdbcTemplete;
