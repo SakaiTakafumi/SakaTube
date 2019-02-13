@@ -10,7 +10,21 @@ import jp.co.sunarch.sakatube.entity.VideoInfoEntity;
 import jp.co.sunarch.sakatube.form.VideoInfoForm;
 import jp.co.sunarch.sakatube.validation.ValidateService;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class VideoUploadService {
+
+	// バリデーションチェック
+	private final ValidateService validateService;
+
+	private final VideoInfoDAO videoInfoDao;
+
+	public VideoUploadService (ValidateService validateService, VideoInfoDAO videoInfoDao) {
+		this.validateService = validateService;
+		this.videoInfoDao = videoInfoDao;
+	}
+
 
 	/**
 	 * 動画の登録処理を行います。
@@ -25,8 +39,6 @@ public class VideoUploadService {
 		String extension = videoInfoForm.getVideo().getOriginalFilename().substring(videoInfoForm.getVideo().getOriginalFilename().lastIndexOf(".") + 1).toUpperCase();
 		videoInfoForm.setExtension(extension);
 
-		// バリデーションチェック
-		ValidateService validateService = new ValidateService();
 		validateService.executeValidation(videoInfoForm, resultMap);
 
 		// この時点でMapが空ではない場合は、何らかのバリデーションエラーがあるので、動画の登録処理は行わない。
@@ -41,8 +53,6 @@ public class VideoUploadService {
 			VideoInfoEntity videoInfoEntity = new VideoInfoEntity(null,
 					videoInfoForm.getTitle(), videoInfoForm.getNote(),
 					videoInfoForm.getExtension(), inputStream);
-
-			VideoInfoDAO videoInfoDao = new VideoInfoDAO();
 
 			// 登録実行。実行の成否によってレスポンスを分ける。
 			if (videoInfoDao.insertVideoInfo(videoInfoEntity)) {

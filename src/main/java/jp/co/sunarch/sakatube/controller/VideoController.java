@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class VideoController {
 
+	private final VideoSearchService videoSearchService;
+
+	public VideoController (VideoSearchService videoSearchService) {
+		this.videoSearchService = videoSearchService;
+	}
+
 	@RequestMapping("/")
 	public String index(Model model) {
 		model.addAttribute("videoInfo", new VideoInfoForm());
@@ -29,11 +35,14 @@ public class VideoController {
 	@RequestMapping("/video/{id}")
 	public String videoPlay(Model model, @PathVariable("id") Long id) {
 
-		VideoSearchService videoSearchService = new VideoSearchService();
 		VideoInfoDto videoInfoDto = videoSearchService.searchVideoInfoById(id);
 
-		model.addAttribute("path", "/api/video/" + videoInfoDto.getId() + "/"
-				+ videoInfoDto.getExtension());
+		// TODO 存在しない動画の時にエラーページに遷移させる。
+		if (videoInfoDto == null) {
+
+		}
+
+		model.addAttribute("path", "/api/video/" + videoInfoDto.getId() + "/"+ videoInfoDto.getExtension());
 		model.addAttribute("title", videoInfoDto.getTitle());
 		model.addAttribute("note", videoInfoDto.getNote());
 

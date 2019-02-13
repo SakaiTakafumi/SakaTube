@@ -20,9 +20,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-// @RequestMapping(value="sakaTube", headers={"Accept=application/*",
-// "Content-Type=multipart/*"})
 public class VideoApiController {
+
+	private final VideoUploadService videoUploadService;
+	private final VideoSearchService videoSearchService;
+
+	public VideoApiController (VideoUploadService videoUploadService, VideoSearchService videoSearchService) {
+		this.videoUploadService = videoUploadService;
+		this.videoSearchService = videoSearchService;
+	}
 
 	/**
 	 * アップロードボタン押下時
@@ -33,12 +39,9 @@ public class VideoApiController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "api/upload", method = RequestMethod.POST)
-	public Map<String, Boolean> videoUpload(
-			@ModelAttribute VideoInfoForm videoInfoForm) throws IOException {
+	public Map<String, Boolean> videoUpload(@ModelAttribute VideoInfoForm videoInfoForm) throws IOException {
 
-		VideoUploadService videoUploadService = new VideoUploadService();
-		Map<String, Boolean> resultMap = videoUploadService
-				.insertVideo(videoInfoForm);
+		Map<String, Boolean> resultMap = videoUploadService.insertVideo(videoInfoForm);
 
 		return resultMap;
 	}
@@ -53,11 +56,8 @@ public class VideoApiController {
 	@RequestMapping(value = "api/search/{keyword}")
 	public List<VideoInfoDto> videoSearch(@PathVariable("keyword") String keyword) {
 
-		VideoSearchService videoSearchService = new VideoSearchService();
-
 		// 検索結果を取得する。
-		List<VideoInfoDto> resultList = videoSearchService
-				.searchVideoInfoByKeyword(keyword);
+		List<VideoInfoDto> resultList = videoSearchService.searchVideoInfoByKeyword(keyword);
 
 		return resultList;
 	}
@@ -73,10 +73,7 @@ public class VideoApiController {
 	 */
 	@RequestMapping(value = "api/video/{id}/{extension}")
 	public void videoSearch(@PathVariable("id") Long id,
-			@PathVariable("extension") String extension, HttpServletResponse res)
-			throws IOException {
-
-		VideoSearchService videoSearchService = new VideoSearchService();
+			@PathVariable("extension") String extension, HttpServletResponse res) throws IOException {
 
 		try (InputStream inputStream = videoSearchService.searchVideoById(id);
 				OutputStream outputStream = res.getOutputStream();) {

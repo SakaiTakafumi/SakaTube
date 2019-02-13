@@ -1,5 +1,8 @@
 package jp.co.sunarch.sakatube.entity;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class SelectVideoInfo {
 
 	protected Long videoId;

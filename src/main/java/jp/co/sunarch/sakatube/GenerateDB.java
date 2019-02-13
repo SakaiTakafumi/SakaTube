@@ -1,10 +1,14 @@
 package jp.co.sunarch.sakatube;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GenerateDB extends DriverAccessor {
+
+	@Autowired
+	JdbcTemplate jdbcTemplate;
 
 	/**
 	 * 動画情報テーブルのDDL
@@ -32,30 +36,7 @@ public class GenerateDB extends DriverAccessor {
 	 *
 	 */
 	private void createTable() {
-
-		Connection con = null;
-		con = createConnection();
-
-		try {
-
-			// 動画IDのシーケンス
-			PreparedStatement eventIdSeqStmt = con
-					.prepareStatement(CREATE_VIDEO_ID_SEQ);
-			eventIdSeqStmt.executeUpdate();
-			eventIdSeqStmt.close();
-
-			// 動画情報テーブル
-			PreparedStatement eventInfoDdlStmt = con
-					.prepareStatement(VIDEO_INFO_DDL);
-			eventInfoDdlStmt.executeUpdate();
-			eventInfoDdlStmt.close();
-
-		} catch (SQLException e) {
-
-		} catch (Exception e) {
-
-		} finally {
-			con = null;
-		}
+		jdbcTemplate.update(CREATE_VIDEO_ID_SEQ);
+		jdbcTemplate.update(VIDEO_INFO_DDL);
 	}
 }

@@ -4,9 +4,11 @@ import java.util.Map;
 
 import jp.co.sunarch.sakatube.form.VideoInfoForm;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
+@Component
 public class ValidateService {
 
 	public static String[] typeList = { "MP4", "MOV", "AVI" };
