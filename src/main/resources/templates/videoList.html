@@ -199,34 +199,33 @@
 						contentType : false,
 						data : formData,
 					})
-					.done (
-						function(data) {
-							$('#data-upload-form').css('display', 'none');
-							$('#upload-complete').css('display', 'block');
+					.done (function(data) {
+						$('#data-upload-form').css('display', 'none');
+						$('#upload-complete').css('display', 'block');
 
-							if (data.uploadSuccess) {
-								$("#upload-result").prepend('<div class="modal-body">アップロードが完了しました</div></br>');
-							} else {
-								$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
-								if (data.titleRequiredError) {
-									$("#error").append ('<p>・動画タイトルは必須です。</p>');
-								}
-								if (data.fileRequiredError) {
-									$("#error").append ('<p>・ファイルを選択して下さい。</p>');
-								}
-								if (data.fileTypeError) {
-									$("#error").append ('<p>・動画ファイル以外はアップロード出来ません。</p>');
-								}
-								if (data.fileSizeError) {
-									$("#error").append ('<p>・サイズ上限を超えているためアップロード出来ません。</p>');
-								}
+						if (data.uploadSuccess) {
+							$("#upload-result").prepend('<div class="modal-body">アップロードが完了しました</div></br>');
+						} else {
+							$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
+							if (data.titleRequiredError) {
+								$("#error").append ('<p>・動画タイトルは必須です。</p>');
+							}
+							if (data.fileRequiredError) {
+								$("#error").append ('<p>・ファイルを選択して下さい。</p>');
+							}
+							if (data.fileTypeError) {
+								$("#error").append ('<p>・動画ファイル以外はアップロード出来ません。</p>');
+							}
+							if (data.fileSizeError) {
+								$("#error").append ('<p>・サイズ上限を超えているためアップロード出来ません。</p>');
 							}
 						}
-					)
+					})
 					.fail (function (XMLHttpRequest, textStatus, errorThrown) {
-							$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
-						}
-					)
+						$('#data-upload-form').css('display', 'none');
+						$('#upload-complete').css('display', 'block');
+						$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
+					})
 				}
 			}
 		);
