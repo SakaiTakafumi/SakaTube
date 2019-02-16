@@ -32,9 +32,8 @@ public class VideoInfoDAO {
 			+ "VIDEO_INFO "
 			+ "WHERE "
 			+ "VIDEO_TITLE LIKE ? "
-			+ "UNION SELECT VIDEO_ID, VIDEO_TITLE, VIDEO_NOTE "
-			+ "FROM "
-			+ "VIDEO_INFO " + "WHERE " + "VIDEO_NOTE LIKE ?";
+			+ "OR "
+			+ "VIDEO_NOTE LIKE ?";
 	private static final String SELECT_VIDEO_INFO_BY_ID = "SELECT VIDEO_ID, VIDEO_TITLE, VIDEO_NOTE, EXTENSION FROM VIDEO_INFO WHERE VIDEO_ID = ?";
 	private static final String SELECT_VIDEO_BY_ID = "SELECT VIDEO FROM VIDEO_INFO WHERE VIDEO_ID = ?";
 
