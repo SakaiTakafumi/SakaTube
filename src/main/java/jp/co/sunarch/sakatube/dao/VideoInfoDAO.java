@@ -8,15 +8,17 @@ import java.util.Map;
 import jp.co.sunarch.sakatube.entity.SelectVideoInfo;
 import jp.co.sunarch.sakatube.entity.VideoInfoEntity;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VideoInfoDAO {
 
-	@Autowired
-	JdbcTemplate jdbcTemplete;
+	private final JdbcTemplate jdbcTemplate;
+
+	public VideoInfoDAO(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
 	private static final String VIDEO_INFO_VIDEO_ID = "VIDEO_ID";
 	private static final String VIDEO_INFO_VIDEO_TITLE = "VIDEO_TITLE";
@@ -47,7 +49,7 @@ public class VideoInfoDAO {
 	public boolean insertVideoInfo(VideoInfoEntity videoInfo) {
 
 		// 登録実行
-		int i = jdbcTemplete.update(INSERT_INTO_VIDEO_INFO,
+		int i = jdbcTemplate.update(INSERT_INTO_VIDEO_INFO,
 				videoInfo.getVideoTitle(), videoInfo.getVideoNote(), videoInfo.getExtension(), videoInfo.getVideo());
 
 		if (i == 0) {
@@ -66,7 +68,7 @@ public class VideoInfoDAO {
 		keyWord = "%" + keyWord + "%";
 
 		// 検索実行
-		List<Map<String, Object>> searchResultList = jdbcTemplete.queryForList(SELECT_VIDEO_INFO_BY_KEY_WORD, keyWord, keyWord);
+		List<Map<String, Object>> searchResultList = jdbcTemplate.queryForList(SELECT_VIDEO_INFO_BY_KEY_WORD, keyWord, keyWord);
 
 		List<SelectVideoInfo> videoInfoList = new ArrayList<>();
 
@@ -91,7 +93,7 @@ public class VideoInfoDAO {
 	public SelectVideoInfo findVideoInfoById(Long id) {
 
 		// 検索実行
-		List<Map<String, Object>> searchResultList = jdbcTemplete.queryForList(SELECT_VIDEO_INFO_BY_ID, id);
+		List<Map<String, Object>> searchResultList = jdbcTemplate.queryForList(SELECT_VIDEO_INFO_BY_ID, id);
 
 		// 0件 または 複数件取得された場合は、nullを返す。
 		if (searchResultList.size() != 1) {
@@ -119,7 +121,7 @@ public class VideoInfoDAO {
 	public byte[] findVideoById(Long id) throws IOException {
 
 		// 検索実行
-		List<Map<String, Object>> searchResultList = jdbcTemplete.queryForList(SELECT_VIDEO_BY_ID, id);
+		List<Map<String, Object>> searchResultList = jdbcTemplate.queryForList(SELECT_VIDEO_BY_ID, id);
 
 		// 0件 または 複数件取得された場合は、nullを返す。
 		if (searchResultList.size() != 1) {
