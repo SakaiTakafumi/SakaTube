@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -53,8 +54,8 @@ public class VideoApiController {
 	 *
 	 * @return resultList
 	 */
-	@RequestMapping(value = "api/search/{keyword}")
-	public List<VideoInfoDto> videoSearch(@PathVariable("keyword") String keyword) {
+	@RequestMapping(value = "api/search", method=RequestMethod.GET)
+	public List<VideoInfoDto> videoSearch(@RequestParam String keyword) {
 
 		// 検索結果を取得する。
 		List<VideoInfoDto> resultList = videoSearchService.searchVideoInfoByKeyword(keyword);

@@ -110,11 +110,11 @@
 					return;
 				}
 
-				var hostUrl = '/api/search/' + $("#keyword").val();
+				var hostUrl = '/api/search?keyword=' + $("#keyword").val();
 
 				$.ajax({
 					url : hostUrl,
-					type : 'POST',
+					type : 'GET',
 					dataType : 'json',
 					processData : false,
 					contentType : false,
