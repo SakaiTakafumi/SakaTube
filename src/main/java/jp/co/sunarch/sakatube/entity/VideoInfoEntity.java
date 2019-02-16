@@ -2,9 +2,6 @@ package jp.co.sunarch.sakatube.entity;
 
 import java.io.InputStream;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class VideoInfoEntity {
 
 	protected Long videoId;
