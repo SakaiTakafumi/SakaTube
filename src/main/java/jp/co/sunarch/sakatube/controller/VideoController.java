@@ -20,8 +20,7 @@ public class VideoController {
 
 	@RequestMapping("/")
 	public String index(Model model) {
-		model.addAttribute("videoInfo", new VideoInfoForm());
-		return "videoList";
+		return "redirect:videos";
 	}
 
 	// 動画一覧画面表示
