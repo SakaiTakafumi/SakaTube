@@ -8,10 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SakaTubeApplication implements ApplicationRunner {
 
-	private static GenerateDB generateDb;
+	private GenerateDB generateDb;
 
 	public SakaTubeApplication (GenerateDB generateDb) {
-		SakaTubeApplication.generateDb = generateDb;
+		this.generateDb = generateDb;
 	}
 
 	public static void main(String[] args) {
@@ -21,6 +21,6 @@ public class SakaTubeApplication implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments arg0) throws Exception {
 		// DB環境構築
-		generateDb.createDB();
+		this.generateDb.createDB();
 	}
 }
