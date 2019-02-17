@@ -4,10 +4,12 @@ import jp.co.sunarch.sakatube.dto.VideoInfoDto;
 import jp.co.sunarch.sakatube.form.VideoInfoForm;
 import jp.co.sunarch.sakatube.service.VideoSearchService;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 public class VideoController {
@@ -38,7 +40,7 @@ public class VideoController {
 
 		// TODO 存在しない動画の時にエラーページに遷移させる。
 		if (videoInfoDto == null) {
-
+			throw new HttpStatus404Exception();
 		}
 
 		model.addAttribute("path", "/api/video/" + videoInfoDto.getId() + "/"+ videoInfoDto.getExtension());
@@ -46,5 +48,9 @@ public class VideoController {
 		model.addAttribute("note", videoInfoDto.getNote());
 
 		return "video";
+	}
+
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	private class HttpStatus404Exception extends RuntimeException {
 	}
 }
