@@ -38,7 +38,7 @@ public class VideoController {
 
 		VideoInfoDto videoInfoDto = videoSearchService.searchVideoInfoById(id);
 
-		// TODO 存在しない動画の時にエラーページに遷移させる。
+		// 存在しない動画の時にエラーページに遷移させる。
 		if (videoInfoDto == null) {
 			throw new HttpStatus404Exception();
 		}
