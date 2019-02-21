@@ -165,10 +165,28 @@
 				$("#error").empty();
 				$("#upload-result").empty();
 
-				// タイトル
+				// タイトル 必須チェック
 				if ($("#title").val() === "") {
 					$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
 					$("#error").append ('<p>・動画タイトルは必須です。</p>');
+					$('#data-upload-form').css('display', 'none');
+					$('#upload-complete').css('display', 'block');
+					errorFlag = true;
+				}
+
+				// タイトル 桁数チェック
+				if ($("#title").val().length > 255) {
+					$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
+					$("#error").append ('<p>・動画タイトルは255文字以内で設定して下さい。</p>');
+					$('#data-upload-form').css('display', 'none');
+					$('#upload-complete').css('display', 'block');
+					errorFlag = true;
+				}
+
+				// 説明 桁数チェック
+				if ($("#note").val().length > 1000) {
+					$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
+					$("#error").append ('<p>・説明は1000文字以内で設定して下さい。</p>');
 					$('#data-upload-form').css('display', 'none');
 					$('#upload-complete').css('display', 'block');
 					errorFlag = true;
@@ -209,6 +227,12 @@
 							$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
 							if (data.titleRequiredError) {
 								$("#error").append ('<p>・動画タイトルは必須です。</p>');
+							}
+							if (data.titleLengthError) {
+								$("#error").append ('<p>・動画タイトルは255文字以内で設定して下さい。</p>');
+							}
+							if (data.noteLengthError) {
+								$("#error").append ('<p>・説明は1000文字以内で設定して下さい。</p>');
 							}
 							if (data.fileRequiredError) {
 								$("#error").append ('<p>・ファイルを選択して下さい。</p>');
