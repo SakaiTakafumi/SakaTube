@@ -20,6 +20,8 @@
 <div class="container">
 	<h1 th:text="${title}"></h1>
 
+	<div id="error"></div>
+
 	<video autoplay controls width="729" height="410">
 		<source th:src="${path}" />
 	</video>
@@ -45,6 +47,11 @@
 	/*<![CDATA[*/
 	// 主処理部
 	$(function() {
+
+		// 正常な動画データではない場合、エラーを表示する。
+		$('video source').last().on('error', function() {
+			$("#error").append('<p><font color="red">動画の再生に失敗しました。</font></p>');
+		})
 
 	});
 
