@@ -22,6 +22,10 @@ public class ValidateService {
 
 		// 動画タイトルの必須チェック
 		checkTitleRequired(videoInfoForm.getTitle(), resultMap);
+		// 動画タイトルの桁数チェック
+		checkTitleLength(videoInfoForm.getTitle(), resultMap);
+		// 説明の桁数チェック
+		checkNoteLength(videoInfoForm.getNote(), resultMap);
 		// 選択されたファイルの存在チェック
 		checkFileRequired(videoInfoForm.getVideo(), resultMap);
 		// 選択されたファイルのサイズチェック
@@ -39,6 +43,28 @@ public class ValidateService {
 	public void checkTitleRequired(String title, Map<String, Boolean> resultMap) {
 		if (StringUtils.isEmpty(title)) {
 			resultMap.put("titleRequiredError", true);
+		}
+	}
+
+	/**
+	 * 動画タイトルの桁数チェックを行います。
+	 *
+	 * @param title
+	 */
+	public void checkTitleLength(String title, Map<String, Boolean> resultMap) {
+		if (StringUtils.length(title) > 255) {
+			resultMap.put("titleLengthError", true);
+		}
+	}
+
+	/**
+	 * 説明の桁数チェックを行います。
+	 *
+	 * @param note
+	 */
+	public void checkNoteLength(String note, Map<String, Boolean> resultMap) {
+		if (StringUtils.length(note) > 1000) {
+			resultMap.put("noteLengthError", true);
 		}
 	}
 
