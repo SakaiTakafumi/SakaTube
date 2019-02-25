@@ -51,7 +51,7 @@
 		// 正常な動画データではない場合、エラーを表示する。
 		$('video source').last().on('error', function() {
 			$("#error").append('<p class="text-danger">動画の再生に失敗しました。</p>');
-		})
+		});
 
 	});
 

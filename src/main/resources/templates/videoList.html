@@ -49,7 +49,7 @@
 						</div>
 						<div class="form-group">
 							<label class="col-form-label" id="video">ファイル</label>
-							<input type="file" size="30" name="video" />
+							<input type="file" size="30" name="video" id="file"/>
 						</div>
 						<div class="modal-footer">
 							<button class="btn btn-secondary" data-dismiss="modal">閉じる</button>
@@ -96,173 +96,172 @@
 	$(function() {
 
 		// 検索ボタン押下時
-		$("#data-search-form").submit (
-			function(event) {
+		$("#data-search-form").submit (function(event) {
 
-				// 前の検索結果を削除する。
-				$("#videos").empty();
+			// 前の検索結果を削除する。
+			$("#videos").empty();
 
-				// 要素規定の動作をキャンセルする
-				event.preventDefault();
+			// 要素規定の動作をキャンセルする
+			event.preventDefault();
 
-				if ($("#keyword").val() === "") {
-					$("#videos").append('<p>検索ワードを入力して下さい。</p>');
-					return;
+			if ($("#keyword").val() === "") {
+				$("#videos").append('<p>検索ワードを入力して下さい。</p>');
+				return;
+			}
+
+			var hostUrl = '/api/search?keyword=' + $("#keyword").val();
+
+			$.ajax({
+				url : hostUrl,
+				type : 'GET',
+				dataType : 'json',
+				processData : false,
+				contentType : false,
+				data : '',
+			})
+			.done (function(data) {
+				if (data.length === 0) {
+					$("#videos").append('<p>該当する動画はありません。</p>');
+				} else {
+						for (var video in data) {
+							var tmp =
+								'<a href="video/' + data[video].id + '" class="list-group-item list-group-item-action">'
+								+ '<div class="d-flex w-100 justify-content-between">'
+								+ '<h5 class="mb-1">' + data[video].title + '</h5>'
+								+ '</div>'
+								+ '<p class="mb-1">' + data[video].note + '</p>'
+								+ '</a>';
+
+							$("#videos").append (tmp);
+						}
+					}
+			})
+			.fail (function(XMLHttpRequest, textStatus, errorThrown) {
+				$("#videos").append('<p>動画を検索出来ませんでした。</p>');
+			})
+		});
+
+		// アップロードダイアログ表示時
+		$("#video-upload").click (function(event) {
+			$('#data-upload-form').get(0).reset();
+			fileName = "";
+
+			$('#data-upload-form').css('display', 'block');
+			$('#upload-complete').css('display', 'none');
+		});
+
+		// 選択ファイル変更時
+		var fileName = "";
+		$("#file").on('change', function(f) {
+			if (f.target.files.length === 0) {
+				fileName = "";
+			} else {
+				fileName = f.target.files[0].name;
+			}
+		});
+
+		// アップロードボタンを押下
+		$("#data-upload-form").submit (function(event) {
+
+			var errorFlag = false;
+			// 前のエラーを削除する。
+			$("#error").empty();
+			$("#upload-result").empty();
+
+			// タイトル 必須チェック
+			if ($("#title").val() === "") {
+				$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
+				$("#error").append ('<p>・動画タイトルは必須です。</p>');
+				$('#data-upload-form').css('display', 'none');
+				$('#upload-complete').css('display', 'block');
+				errorFlag = true;
+			}
+
+			// タイトル 桁数チェック
+			if ($("#title").val().length > 255) {
+				$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
+				$("#error").append ('<p>・動画タイトルは255文字以内で設定して下さい。</p>');
+				$('#data-upload-form').css('display', 'none');
+				$('#upload-complete').css('display', 'block');
+				errorFlag = true;
+			}
+
+			// 説明 桁数チェック
+			if ($("#note").val().length > 1000) {
+				$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
+				$("#error").append ('<p>・説明は1000文字以内で設定して下さい。</p>');
+				$('#data-upload-form').css('display', 'none');
+				$('#upload-complete').css('display', 'block');
+				errorFlag = true;
+			}
+
+			// video
+			if (fileName === "") {
+				if (!errorFlag) {
+					$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
 				}
+				$("#error").append ('<p>・ファイルを選択して下さい。</p>');
+				$('#data-upload-form').css('display', 'none');
+				$('#upload-complete').css('display', 'block');
+				errorFlag = true;
+			}
 
-				var hostUrl = '/api/search?keyword=' + $("#keyword").val();
-
-				$.ajax({
+			// 要素規定の動作をキャンセルする
+			event.preventDefault();
+			if (!errorFlag) {
+				var formData = new FormData($(this)[0]);
+				var hostUrl = '/api/upload';
+				$.ajax ({
 					url : hostUrl,
-					type : 'GET',
+					type : 'POST',
 					dataType : 'json',
 					processData : false,
 					contentType : false,
-					data : '',
+					data : formData,
 				})
-				.done (
-					function(data) {
-						if (data.length === 0) {
-							$("#videos").append('<p>該当する動画はありません。</p>');
-						} else {
-							for (var video in data) {
-								var tmp =
-									'<a href="video/' + data[video].id + '" class="list-group-item list-group-item-action">'
-									+ '<div class="d-flex w-100 justify-content-between">'
-									+ '<h5 class="mb-1">' + data[video].title + '</h5>'
-									+ '</div>'
-									+ '<p class="mb-1">' + data[video].note + '</p>'
-									+ '</a>';
-
-								$("#videos").append (tmp);
-							}
+				.done (function(data) {
+					$('#data-upload-form').css('display', 'none');
+					$('#upload-complete').css('display', 'block');
+					if (data.uploadSuccess) {
+						$("#upload-result").prepend('<div class="modal-body">アップロードが完了しました</div></br>');
+					} else {
+						$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
+						if (data.titleRequiredError) {
+							$("#error").append ('<p>・動画タイトルは必須です。</p>');
+						}
+						if (data.titleLengthError) {
+							$("#error").append ('<p>・動画タイトルは255文字以内で設定して下さい。</p>');
+						}
+						if (data.noteLengthError) {
+							$("#error").append ('<p>・説明は1000文字以内で設定して下さい。</p>');
+						}
+						if (data.fileRequiredError) {
+							$("#error").append ('<p>・ファイルを選択して下さい。</p>');
+						}
+						if (data.fileTypeError) {
+							$("#error").append ('<p>・動画ファイル以外はアップロード出来ません。</p>');
+						}
+						if (data.fileSizeError) {
+							$("#error").append ('<p>・サイズ上限を超えているためアップロード出来ません。</p>');
 						}
 					}
-				)
-				.fail (
-					function(XMLHttpRequest, textStatus, errorThrown) {
-						$("#videos").append('<p>動画を検索出来ませんでした。</p>');
-					}
-				)
-			}
-		);
-
-		// アップロードダイアログ表示時
-		$("#video-upload").click (
-			function(event) {
-				$('#data-upload-form').get(0).reset();
-				$('#data-upload-form').css('display', 'block');
-				$('#upload-complete').css('display', 'none');
-			}
-		);
-
-		// アップロードボタンを押下
-		$("#data-upload-form").submit (
-			function(event) {
-
-				var errorFlag = false;
-				// 前のエラーを削除する。
-				$("#error").empty();
-				$("#upload-result").empty();
-
-				// タイトル 必須チェック
-				if ($("#title").val() === "") {
+				})
+				.fail (function (XMLHttpRequest, textStatus, errorThrown) {
+					$('#data-upload-form').css('display', 'none');
+					$('#upload-complete').css('display', 'block');
 					$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
-					$("#error").append ('<p>・動画タイトルは必須です。</p>');
-					$('#data-upload-form').css('display', 'none');
-					$('#upload-complete').css('display', 'block');
-					errorFlag = true;
-				}
-
-				// タイトル 桁数チェック
-				if ($("#title").val().length > 255) {
-					$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
-					$("#error").append ('<p>・動画タイトルは255文字以内で設定して下さい。</p>');
-					$('#data-upload-form').css('display', 'none');
-					$('#upload-complete').css('display', 'block');
-					errorFlag = true;
-				}
-
-				// 説明 桁数チェック
-				if ($("#note").val().length > 1000) {
-					$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
-					$("#error").append ('<p>・説明は1000文字以内で設定して下さい。</p>');
-					$('#data-upload-form').css('display', 'none');
-					$('#upload-complete').css('display', 'block');
-					errorFlag = true;
-				}
-
-				// video
-				if ($("#video") === "") {
-					if (!errorFlag) {
-						$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
-					}
-					$("#error").append ('<p>・ファイルを選択して下さい。</p>');
-					$('#data-upload-form').css('display', 'none');
-					$('#upload-complete').css('display', 'block');
-					errorFlag = true;
-				}
-
-				// 要素規定の動作をキャンセルする
-				event.preventDefault();
-
-				if (!errorFlag) {
-					var formData = new FormData($(this)[0]);
-					var hostUrl = '/api/upload';
-					$.ajax ({
-						url : hostUrl,
-						type : 'POST',
-						dataType : 'json',
-						processData : false,
-						contentType : false,
-						data : formData,
-					})
-					.done (function(data) {
-						$('#data-upload-form').css('display', 'none');
-						$('#upload-complete').css('display', 'block');
-
-						if (data.uploadSuccess) {
-							$("#upload-result").prepend('<div class="modal-body">アップロードが完了しました</div></br>');
-						} else {
-							$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
-							if (data.titleRequiredError) {
-								$("#error").append ('<p>・動画タイトルは必須です。</p>');
-							}
-							if (data.titleLengthError) {
-								$("#error").append ('<p>・動画タイトルは255文字以内で設定して下さい。</p>');
-							}
-							if (data.noteLengthError) {
-								$("#error").append ('<p>・説明は1000文字以内で設定して下さい。</p>');
-							}
-							if (data.fileRequiredError) {
-								$("#error").append ('<p>・ファイルを選択して下さい。</p>');
-							}
-							if (data.fileTypeError) {
-								$("#error").append ('<p>・動画ファイル以外はアップロード出来ません。</p>');
-							}
-							if (data.fileSizeError) {
-								$("#error").append ('<p>・サイズ上限を超えているためアップロード出来ません。</p>');
-							}
-						}
-					})
-					.fail (function (XMLHttpRequest, textStatus, errorThrown) {
-						$('#data-upload-form').css('display', 'none');
-						$('#upload-complete').css('display', 'block');
-						$("#upload-result").prepend('<div class="modal-body">アップロードが失敗しました</div></br>');
-					})
-				}
+				})
 			}
-		);
+		});
 
 		// 続けるボタンを押下
-		$("#upload-continue").click (
-			function(event) {
-				$('#data-upload-form').get(0).reset();
+		$("#upload-continue").click (function(event) {
+			$('#data-upload-form').get(0).reset();
+			fileName = "";
 
-				$('#data-upload-form').css('display', 'block');
-				$('#upload-complete').css('display', 'none');
-			}
-		);
+			$('#data-upload-form').css('display', 'block');
+			$('#upload-complete').css('display', 'none');
+		});
 	});
 
 	/*]]>*/
