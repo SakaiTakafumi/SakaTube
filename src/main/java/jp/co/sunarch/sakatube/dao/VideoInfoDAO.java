@@ -60,14 +60,14 @@ public class VideoInfoDAO {
 	/**
 	 * キーワードで動画情報を検索します。
 	 *
-	 * @param keyWord
+	 * @param keyword
 	 */
-	public List<SelectVideoInfo> findVideoInfoByKeyWord(String keyWord) {
+	public List<SelectVideoInfo> findVideoInfoByKeyWord(String keyword) {
 
-		keyWord = "%" + keyWord + "%";
+		keyword = "%" + keyword + "%";
 
 		// 検索実行
-		List<Map<String, Object>> searchResultList = jdbcTemplate.queryForList(SELECT_VIDEO_INFO_BY_KEY_WORD, keyWord, keyWord);
+		List<Map<String, Object>> searchResultList = jdbcTemplate.queryForList(SELECT_VIDEO_INFO_BY_KEY_WORD, keyword, keyword);
 
 		List<SelectVideoInfo> videoInfoList = new ArrayList<>();
 

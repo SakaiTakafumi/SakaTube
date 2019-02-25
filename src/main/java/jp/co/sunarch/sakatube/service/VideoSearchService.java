@@ -24,7 +24,7 @@ public class VideoSearchService {
 	/**
 	 * キーワードで動画の検索処理を行います。
 	 *
-	 * @param keyWord
+	 * @param keyword
 	 */
 	public List<VideoInfoDto> searchVideoInfoByKeyword(String keyword) {
 		// レスポンス返却用
