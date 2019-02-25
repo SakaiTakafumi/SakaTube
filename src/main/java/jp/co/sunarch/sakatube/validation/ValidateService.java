@@ -85,7 +85,7 @@ public class ValidateService {
 	 * @param file
 	 */
 	public void checkFileSize(MultipartFile file, Map<String, Boolean> resultMap) {
-		if (file.getSize() > 500000000) {
+		if (file.getSize() > 1073741824) {
 			resultMap.put("fileSizeError", true);
 		}
 	}
