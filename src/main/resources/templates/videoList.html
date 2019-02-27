@@ -14,8 +14,8 @@
 	<div class="sticky-top">
 		<nav class="navbar navbar-dark bg-primary">
 			<a class="navbar-brand" href="/videos">SakaTube</a>
-			<form class="form-inline" id="data-search-form" name="keyWord" method="get">
-				<input class="form-control mr-sm-2" type="text" id="keyword" name="word" placeholder="検索ワードを入力して下さい。" aria-label="Search">
+			<form class="form-inline w-75" id="data-search-form" name="keyWord" method="get">
+				<input class="form-control mr-sm-2 w-75" type="text" id="keyword" name="word" placeholder="検索ワードを入力して下さい。" aria-label="Search">
 				<button class="btn btn-light" id="data_serch_button" type="submit">検索</button>
 			</form>
 			<!-- ボタン -->
@@ -26,6 +26,7 @@
 
 <div class="container">
 
+	<br>
 	<div id="videos" class="list-group"></div>
 
 	<!-- モーダルダイアログ -->
@@ -105,7 +106,7 @@
 			event.preventDefault();
 
 			if ($("#keyword").val() === "") {
-				$("#videos").append('<p>検索ワードを入力して下さい。</p>');
+				$("#videos").append('<p class="text-danger">検索ワードを入力して下さい。</p>');
 				return;
 			}
 
@@ -121,7 +122,7 @@
 			})
 			.done (function(data) {
 				if (data.length === 0) {
-					$("#videos").append('<p>該当する動画はありません。</p>');
+					$("#videos").append('<p class="text-danger">該当する動画はありません。</p>');
 				} else {
 						for (var video in data) {
 							var tmp =
